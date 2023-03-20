@@ -1,5 +1,5 @@
 import app from "./config/app.js";
-import { init } from "./config/socket.js";
+import { initSocket } from "./config/socket.js";
 
 const PORT = process.env.PORT || 8080;
 
@@ -8,4 +8,4 @@ const server = app.listen(PORT, () => {
 })
 server.on('error', error => console.log('Error en el servidor', error))
 
-init(server)
+initSocket(server)

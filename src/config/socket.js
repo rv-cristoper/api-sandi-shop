@@ -8,7 +8,7 @@ let socketServer;
 
 let productList = [];
 
-export const init = (httpServer) => {
+export const initSocket = (httpServer) => {
     socketServer = new Server(httpServer)
 
     socketServer.on('connection', async socketClient => {

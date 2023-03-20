@@ -1,6 +1,8 @@
 import isEmpty from 'is-empty';
 import Product from '../class/Product.js';
 
+import ProductModel from '../models/products.js'
+
 const product = new Product('productList');
 
 class ProductController {
@@ -9,16 +11,12 @@ class ProductController {
         try {
             let response = {};
             let { limit } = req.query;
-            const products = await product.getAllProducts();
+            const products = await ProductModel.find();
             response = { products };
             if (!isEmpty(limit)) {
                 limit = Number(limit);
-                if (!isNaN(limit)) {
-                    response = { products: products.slice(0, limit) };
-                } else {
-                    const description = 'El límite tiene que ser de tipo numérico';
-                    throw new Error(JSON.stringify({ description }));
-                }
+                if (isNaN(limit)) { throw new Error(JSON.stringify({ limit: 'El límite tiene que ser de tipo numérico' })); }
+                response = { products: products.slice(0, limit) };
             };
             return res.json(response);
         } catch (err) {
@@ -31,21 +29,11 @@ class ProductController {
 
     static async getProductById(req, res) {
         try {
-            let response = {};
             let { pid } = req.params;
             pid = Number(pid);
-            if (!isNaN(pid)) {
-                const productById = await product.getProductById(pid);
-                if (isEmpty(productById)) {
-                    const description = `No se encontró un producto con el id ${pid}`;
-                    throw new Error(JSON.stringify({ description }));
-                }
-                response = { product: productById };
-            } else {
-                const description = 'El id tiene que ser de tipo numérico';
-                throw new Error(JSON.stringify({ description }));
-            }
-            return res.json(response);
+            if (isNaN(pid)) { throw new Error(JSON.stringify({ id: 'El id tiene que ser de tipo numérico' })) }
+            const productById = await ProductModel.findOne({ id: pid })
+            return res.json({ product: productById });
         } catch (err) {
             return res.status(400).json({
                 message: 'Error al buscar el producto',

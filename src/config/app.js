@@ -3,9 +3,13 @@ import handlebars from 'express-handlebars';
 import dotenv from "dotenv";
 import __dirname from './utils.js';
 import RoutesController from '../routes/index.js';
+import { initDataBase } from '../db/mongodb.js';
 
 // Use env
 dotenv.config({ path: '.env' });
+
+// Use MongoDB
+initDataBase()
 
 const app = express();
 
