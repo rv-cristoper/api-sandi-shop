@@ -1,9 +1,5 @@
 import isEmpty from 'is-empty';
-import Product from '../class/Product.js';
-
 import ProductModel from '../models/products.js'
-
-const product = new Product('productList');
 
 class ProductController {
 
@@ -33,7 +29,11 @@ class ProductController {
             pid = Number(pid);
             if (isNaN(pid)) { throw new Error(JSON.stringify({ id: 'El id tiene que ser de tipo numérico' })) }
             const productById = await ProductModel.findOne({ id: pid })
-            return res.json({ product: productById });
+            if (!productById) return res.status(404).json({ message: 'Producto no encontrado' })
+            return res.json({
+                message: "Producto encontrado",
+                data: productById
+            });
         } catch (err) {
             return res.status(400).json({
                 message: 'Error al buscar el producto',
@@ -46,7 +46,7 @@ class ProductController {
         try {
             let error = {};
             const productData = req.body;
-            const requiredFields = ['title', 'description', 'code', 'price', 'status', 'stock', 'category'];
+            const requiredFields = ['title', 'description', 'code', 'price', 'stock', 'category'];
             requiredFields.forEach(field => {
                 if (!productData.hasOwnProperty(field)) {
                     error[field] = 'El campo es obligatorio';
@@ -61,18 +61,11 @@ class ProductController {
                     error[field] = 'El campo no esta permitido';
                 };
             });
-            if (!isEmpty(error)) {
-                throw new Error(JSON.stringify(error));
-            };
-            const productByCode = await product.getProductByCode(productData.code);
-            if (!isEmpty(productByCode)) {
-                const description = `El código ${productData.code} ya se encuentra regitrado`;
-                throw new Error(JSON.stringify({ description }));
-            };
-            await product.createProduct(productData);
-            return res.json({
-                message: 'El producto fue agregado exitosamente'
-            });
+            if (!isEmpty(error)) throw new Error(JSON.stringify(error));
+            await ProductModel.create(productData).catch(() => {
+                throw new Error(JSON.stringify({ detail: 'El tipo de dato no es correcto o el código ya existe' }))
+            })
+            return res.json({ message: 'El producto fue agregado exitosamente' });
         } catch (err) {
             return res.status(400).json({
                 message: 'Error al agregar el producto',
@@ -87,20 +80,13 @@ class ProductController {
             let { pid } = req.params;
             const productData = req.body;
             pid = Number(pid);
-            if (isEmpty(productData)) {
-                const description = 'No se ha ingresado nungún elemento a actualizar';
-                throw new Error(JSON.stringify({ description }));
-            }
-            if (!isNaN(pid)) {
-                const productById = await product.getProductById(pid);
-                if (isEmpty(productById)) {
-                    const description = `No se encontró un producto con el id ${pid}`;
-                    throw new Error(JSON.stringify({ description }));
-                }
-            } else {
-                const description = 'El id tiene que ser de tipo numérico';
-                throw new Error(JSON.stringify({ description }));
-            }
+            if (isNaN(pid)) throw new Error(JSON.stringify({ id: 'El id tiene que ser de tipo numérico' }))
+
+            if (isEmpty(productData)) throw new Error(JSON.stringify({ detail: 'No se ha ingresado nungún elemento a actualizar' }));
+
+            let productById = await ProductModel.findOne({ id: pid })
+            if (isEmpty(productById)) return res.status(404).json({ message: 'El producto a editar no existe' })
+
             const allowedFields = ['title', 'description', 'code', 'price', 'status', 'stock', 'category', 'thumbnails'];
             Object.keys(productData).forEach(field => {
                 if (allowedFields.includes(field) && isEmpty(productData[field])) {
@@ -110,17 +96,17 @@ class ProductController {
                     error[field] = 'El campo no esta permitido';
                 };
             });
-            if (!isEmpty(error)) {
-                throw new Error(JSON.stringify(error));
-            };
+            if (!isEmpty(error)) throw new Error(JSON.stringify(error));
+
             if (!isEmpty(productData.code)) {
-                const productByCode = await product.getProductByCode(productData.code);
+                const productByCode = await ProductModel.findOne({ code: productData.code })
                 if (!isEmpty(productByCode) && productByCode.id !== pid) {
-                    const description = `El código ${productData.code} ya se encuentra regitrado`;
-                    throw new Error(JSON.stringify({ description }));
+                    throw new Error(JSON.stringify({ detail: `El código ${productData.code} ya se encuentra regitrado` }));
                 };
             }
-            await product.updateProducts(pid, productData);
+            await ProductModel.updateOne({ id: pid }, { $set: productData }).catch(() => {
+                throw new Error(JSON.stringify({ detail: 'El tipo de dato no es correcto' }))
+            })
             return res.json({
                 message: 'El producto fue actualizado exitosamente'
             });
@@ -136,17 +122,12 @@ class ProductController {
         try {
             let { pid } = req.params;
             pid = Number(pid);
-            if (!isNaN(pid)) {
-                const productById = await product.getProductById(pid);
-                if (isEmpty(productById)) {
-                    const description = `No se encontró un producto con el id ${pid}`;
-                    throw new Error(JSON.stringify({ description }));
-                }
-            } else {
-                const description = 'El id tiene que ser de tipo numérico';
-                throw new Error(JSON.stringify({ description }));
-            }
-            await product.deleteProductById(pid);
+            if (isNaN(pid)) throw new Error(JSON.stringify({ detail: 'El id tiene que ser de tipo numérico' }));
+
+            const productById = await ProductModel.findOne({ id: pid })
+            if (isEmpty(productById)) return res.status(404).json({ message: 'El producto a eliminar no existe' })
+
+            await ProductModel.deleteOne({ id: pid })
             return res.json({
                 message: 'El producto fue eliminado exitosamente'
             });
