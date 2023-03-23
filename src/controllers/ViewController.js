@@ -1,12 +1,10 @@
-import Product from '../class/Product.js';
-
-const product = new Product('productList');
+import ProductModel from '../models/products.js'
 
 class ViewController {
 
     static async home(req, res) {
         try {
-            const response = await product.getAllProducts();
+            const response = await ProductModel.find().lean();
             return res.render('home', {
                 style: 'home.css',
                 products: response

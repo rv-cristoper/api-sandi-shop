@@ -26,8 +26,7 @@ const onSubmitForm = () => {
         category,
         code,
         stock,
-        price,
-        status: true
+        price
     };
     socket.emit('addProduct', {
         user,

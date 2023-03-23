@@ -1,8 +1,6 @@
 import { Server } from "socket.io"
 import isEmpty from 'is-empty';
-
-import Product from "../class/Product.js";
-const product = new Product('productList');
+import ProductModel from '../models/products.js'
 
 let socketServer;
 
@@ -15,13 +13,13 @@ export const initSocket = (httpServer) => {
         console.log('Nuevo cliente conectado', socketClient.id)
 
         if (isEmpty(productList)) {
-            productList = await product.getAllProducts();
+            productList = await ProductModel.find();
         }
         socketServer.emit('productList', productList)
 
         socketClient.on('addProduct', async data => {
             const { user, product: prod } = data;
-            const productByCode = await product.getProductByCode(prod.code);
+            const productByCode = await ProductModel.findOne({ code: prod.code })
             if (!isEmpty(productByCode)) {
                 return socketServer.emit('notification', {
                     type: 'error',
@@ -29,8 +27,8 @@ export const initSocket = (httpServer) => {
                     message: `El código ${prod.code} ya se encuentra regitrado`
                 })
             }
-            await product.createProduct(prod);
-            productList = await product.getAllProducts();
+            await ProductModel.create(prod)
+            productList = await ProductModel.find();
             socketServer.emit('productList', productList)
             socketServer.emit('notification', {
                 type: 'success',
@@ -41,8 +39,8 @@ export const initSocket = (httpServer) => {
 
         socketClient.on('deleteProduct', async data => {
             const { user, id } = data;
-            await product.deleteProductById(id);
-            productList = await product.getAllProducts();
+            await ProductModel.deleteOne({ id })
+            productList = await ProductModel.find();
             socketServer.emit('productList', productList);
             socketServer.emit('notification', {
                 type: 'success',
