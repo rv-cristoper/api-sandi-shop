@@ -6,5 +6,6 @@ const viewRouter = Router();
 viewRouter
     .get('', ViewController.home)
     .get('/realtimeproducts', ViewController.realtimeproducts)
+    .get('/chat', ViewController.chat)
 
 export default viewRouter;

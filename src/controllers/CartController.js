@@ -1,6 +1,6 @@
 import isEmpty from 'is-empty';
-import CartModel from '../models/carts.js';
-import ProductModel from '../models/products.js'
+import CartModel from '../dao/models/carts.js';
+import ProductModel from '../dao/models/products.js'
 
 class CartController {
 

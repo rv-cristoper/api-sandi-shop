@@ -1,4 +1,5 @@
-import ProductModel from '../models/products.js'
+import ProductModel from '../dao/models/products.js'
+import MessageModel from '../dao/models/message.js'
 
 class ViewController {
 
@@ -21,6 +22,21 @@ class ViewController {
         return res.render('realtimeproducts', {
             style: 'home.css',
         })
+    }
+
+    static async chat(req, res) {
+        try {
+            const response = await MessageModel.find().lean();
+            return res.render('chat', {
+                style: 'home.css',
+                messages: response
+            })
+        } catch (err) {
+            return res.status(400).json({
+                message: 'Error al listar los mensajes',
+                error: JSON.parse(err.message)
+            });
+        }
     }
 
 };

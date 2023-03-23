@@ -1,5 +1,5 @@
 import isEmpty from 'is-empty';
-import ProductModel from '../models/products.js'
+import ProductModel from '../dao/models/products.js'
 
 class ProductController {
 

@@ -1,0 +1,18 @@
+<h1>Chat Sandi shop</h1>
+
+<form id="messageForm" name="messageForm" onsubmit="event.preventDefault(); onSubmitForm();">
+    <input type="email" name="email" id="email" placeholder="Ingresa tu correo" required><br />
+    <input type="text" name="message" id="message" placeholder="Ingrese un mensaje..." required><br />
+    <button type="submit">Enviar</button>
+</form>
+
+<ul id="list-messages">
+    {{#each messages}}
+    <li>
+        <p><strong>{{this.user}}</strong>: {{this.message}}</p>
+    </li>
+    {{/each}}
+</ul>
+
+<script src="/socket.io/socket.io.js"></script>
+<script src="/js/script.js"></script>

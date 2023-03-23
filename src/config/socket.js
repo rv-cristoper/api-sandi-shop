@@ -1,6 +1,7 @@
 import { Server } from "socket.io"
 import isEmpty from 'is-empty';
-import ProductModel from '../models/products.js'
+import ProductModel from '../dao/models/products.js'
+import MessageModel from '../dao/models/message.js'
 
 let socketServer;
 
@@ -47,6 +48,11 @@ export const initSocket = (httpServer) => {
                 user,
                 message: 'Producto eliminado exitosamente'
             })
+        })
+
+        socketClient.on('newMessage', async data => {
+            await MessageModel.create(data)
+            socketServer.emit('newMessage', data)
         })
 
         socketClient.on('disconection', () => {
