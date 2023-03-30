@@ -1,6 +1,8 @@
 import ProductModel from '../dao/models/products.js'
 import MessageModel from '../dao/models/message.js'
+import CartModel from '../dao/models/carts.js';
 import CommonsUtils from '../utils/commons.js';
+import isEmpty from 'is-empty';
 
 class ViewController {
 
@@ -65,6 +67,37 @@ class ViewController {
                 error: JSON.parse(err.message)
             });
         };
+    }
+
+    static async getCart(req, res) {
+        try {
+            let { cid } = req.params;
+            cid = Number(cid);
+            if (isNaN(cid)) throw new Error(JSON.stringify({ detail: 'El id tiene que ser de tipo numérico' }));
+
+            const cartById = await CartModel.findOne({ id: cid }).populate('products._id')
+            if (isEmpty(cartById)) return res.status(404).json({ message: 'Carrito no encontrado' })
+
+            const newProducts = cartById.products.map((product) => {
+                return {
+                    ...product._id._doc,
+                    quantity: product._doc.quantity,
+                    totalPrice: (product._doc.quantity * product._id.price).toFixed(2)
+                }
+            })
+            const total = (newProducts.reduce((accumulator, current) => accumulator + Number(current.totalPrice), 0)).toFixed(2);
+            return res.render('cart', {
+                style: 'home.css',
+                products: newProducts,
+                total
+            })
+        } catch (err) {
+            return res.status(400).json({
+                message: 'Error al mostrar Carrito',
+                error: JSON.parse(err.message)
+            });
+        }
+
     }
 
 };

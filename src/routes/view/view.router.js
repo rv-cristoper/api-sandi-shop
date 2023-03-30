@@ -8,5 +8,6 @@ viewRouter
     .get('/realtimeproducts', ViewController.realtimeproducts)
     .get('/chat', ViewController.chat)
     .get('/products', ViewController.getProducts)
+    .get('/carts/:cid', ViewController.getCart)
 
 export default viewRouter;

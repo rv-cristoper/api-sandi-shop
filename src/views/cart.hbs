@@ -1,0 +1,37 @@
+<div>
+    <h1>Carrito de compras</h1>
+    <div class="container table-responsive py-5">
+        <table class="table table-bordered table-hover">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">Código</th>
+                    <th scope="col">Foto</th>
+                    <th scope="col">Título</th>
+                    <th scope="col">Cantidad</th>
+                    <th scope="col">Precio unitario</th>
+                    <th scope="col">Precio</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#each products}}
+                <tr>
+                    <td>{{this._id}}</td>
+                    <td><img src={{this.thumbnails}} alt={{this.title}} width="50" /> </td>
+                    <td>{{this.title}}</td>
+                    <td>{{this.quantity}}</td>
+                    <td>S/. {{this.price}}</td>
+                    <td>S/. {{this.totalPrice}}</td>
+                </tr>
+                {{/each}}
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td><b>Total a pagar:</b></td>
+                    <td><b>S/. {{total}}</b></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
