@@ -1,20 +1,25 @@
 import isEmpty from 'is-empty';
 import ProductModel from '../dao/models/products.js'
+import CommonsUtils from '../utils/commons.js';
 
 class ProductController {
 
     static async getProducts(req, res) {
+        const { query } = req
+        const { limit = 10, page = 1, sort } = query
+        const opts = { limit, page }
+        if (sort === 'asc' || sort === 'desc') opts.sort = { price: sort }
         try {
-            let response = {};
-            let { limit } = req.query;
-            const products = await ProductModel.find();
-            response = { products };
-            if (!isEmpty(limit)) {
-                limit = Number(limit);
-                if (isNaN(limit)) { throw new Error(JSON.stringify({ limit: 'El límite tiene que ser de tipo numérico' })); }
-                response = { products: products.slice(0, limit) };
-            };
-            return res.json(response);
+            const response = await ProductModel.paginate(CommonsUtils.getFilter(query), opts)
+            let result = CommonsUtils.buildResult({ ...response, sort })
+            let pagination = [];
+            if (result.prevPage) pagination.push({ page: result.prevPage, active: false, link: result.paginationLink.replace('numberPage', result.prevPage) })
+            pagination.push({ page: result.page, active: true, link: result.paginationLink.replace('numberPage', result.page) })
+            if (result.nextPage) pagination.push({ page: result.nextPage, active: false, link: result.paginationLink.replace('numberPage', result.nextPage) })
+            result.pagination = pagination
+            const newPayload = JSON.stringify(result)
+            result = JSON.parse(newPayload)
+            return res.json(result);
         } catch (err) {
             return res.status(400).json({
                 message: 'Error al listar productos',

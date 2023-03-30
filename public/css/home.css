@@ -13,6 +13,18 @@
     border-radius: 2rem;
     position: relative;
 }
+.main_home .product .imag_container{
+    display: flex;
+}
+.main_home .product .imag_container img{
+    border-radius: 50%;
+    box-sizing: initial;
+    height: 200px;
+    margin: auto;
+    object-fit: cover;
+    padding: 2rem 0;
+    width: 200px;
+}
 .main_home .product .delete{
     position: absolute;
     top: 10px;

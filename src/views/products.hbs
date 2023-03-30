@@ -1,0 +1,38 @@
+<div>
+    <h2>Lista de Productos</h2>
+    <div class="main_home">
+        {{#each products.payload}}
+            <div class="product">
+                <h3>{{this.title}}</h3>
+                <div class="imag_container">
+                    <img src={{this.thumbnails}} alt={{this.title}}>
+                </div>
+                <p>Código: {{this.code}}</p>
+                <p>Categoría: {{this.category}}</p>
+                {{#if this.status}}
+                    <p>Stock: {{this.stock}}</p>
+                    <p class="price">Precio: S/. {{this.price}}</p>
+                    <button type="button" class="btn btn-dark" onclick="addProduct('{{this._id}}');">Agregar al carrito</button>
+                {{else}}
+                    <p class="no_product">Producto no disponible</p>
+                {{/if}}
+            </div>
+        {{/each}}
+    </div>
+    <br><br>
+    <nav aria-label="Page navigation example">
+        <ul class="pagination justify-content-center">
+            <li class="page-item {{#if products.hasPrevPage}} {{else}} disabled {{/if}}">
+                <a class="page-link" href="{{products.prevLink}}" >Anterior</a>
+            </li>
+            {{#each products.pagination}}
+                <li class="page-item {{#if this.active}} active {{else}} {{/if}}"><a class="page-link" href={{this.link}}>{{this.page}}</a></li>
+            {{/each}}
+            <li class="page-item {{#if products.hasNextPage}} {{else}} disabled {{/if}}">
+                <a class="page-link" href="{{products.nextLink}}">Siguiente</a>
+            </li>
+        </ul>
+    </nav>
+</div>
+
+<script src="/js/product.js"></script>
