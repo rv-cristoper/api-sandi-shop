@@ -4,6 +4,9 @@ import dotenv from "dotenv";
 import __dirname from './utils.js';
 import RoutesController from '../routes/index.js';
 import { initDataBase } from '../db/mongodb.js';
+import cookieParser from 'cookie-parser';
+import session from 'express-session';
+import MongoStore from 'connect-mongo';
 
 // Use env
 dotenv.config({ path: '.env' });
@@ -24,6 +27,21 @@ app.use(express.static(__dirname + '/../../public'))
 // Json config
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
+
+// Cookie
+app.use(cookieParser('SandiS3cR3tC0D3'))
+
+// Express session
+app.use(session({
+    store: MongoStore.create({
+        mongoUrl: process.env.MONGODB_URI,
+        mongoOptions: { useNewUrlParser: true, useUnifiedTopology: true },
+        ttl: 60
+    }),
+    secret: 'secretSandy',
+    resave: false,
+    saveUninitialized: false
+}))
 
 // Assign routes
 RoutesController.createRoutes(app);
