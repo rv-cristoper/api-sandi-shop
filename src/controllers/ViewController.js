@@ -100,6 +100,22 @@ class ViewController {
 
     }
 
+    static async login(req, res) {
+        return res.render('login', {})
+    }
+
+    static async register(req, res) {
+        return res.render('register', {})
+    }
+
+    static async profile(req, res) {
+        const user = req.session.user
+        return res.render('profile', {
+            style: 'home.css',
+            user
+        })
+    }
+
 };
 
 export default ViewController;

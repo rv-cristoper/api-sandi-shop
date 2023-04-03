@@ -9,7 +9,8 @@ class RoutesController {
         // API
         app.use('/api/products', productsRouter)
         app.use('/api/carts', cartRouter)
-        
+        app.use('/api/sessions', sessionRouter)
+
         // COOKIE
         app.use('/cookie', cookiesRouter)
 

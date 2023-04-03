@@ -10,5 +10,8 @@ viewRouter
     .get('/chat', ViewController.chat)
     .get('/products', auth, ViewController.getProducts)
     .get('/carts/:cid', ViewController.getCart)
+    .get('/login', ViewController.login)
+    .get('/register', ViewController.register)
+    .get('/profile', auth, ViewController.profile)
 
 export default viewRouter;
