@@ -1,32 +1,55 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="#"><b>Bienvenido {{user.first_name}} {{user.last_name}} </b>|| Rol: {{user.rol}}</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+                <a class="nav-link active" href="http://localhost:8080/products"><b>Productos</b></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="http://localhost:8080/profile"><b>Perfil</b></a>
+            </li>
+        </ul>
+        <div>
+            <button onclick="logoutUser()">Cerrar sesión</button>
+        </div>
+    </div>
+</nav>
 <div>
+    <br>
     <h2>Lista de Productos</h2>
+    <br>
     <div class="main_home">
         {{#each products.payload}}
-            <div class="product">
-                <h3>{{this.title}}</h3>
-                <div class="imag_container">
-                    <img src={{this.thumbnails}} alt={{this.title}}>
-                </div>
-                <p>Código: {{this.code}}</p>
-                <p>Categoría: {{this.category}}</p>
-                {{#if this.status}}
-                    <p>Stock: {{this.stock}}</p>
-                    <p class="price">Precio: S/. {{this.price}}</p>
-                    <button type="button" class="btn btn-dark" onclick="addProduct('{{this._id}}');">Agregar al carrito</button>
-                {{else}}
-                    <p class="no_product">Producto no disponible</p>
-                {{/if}}
+        <div class="product">
+            <h3>{{this.title}}</h3>
+            <div class="imag_container">
+                <img src={{this.thumbnails}} alt={{this.title}}>
             </div>
+            <p>Código: {{this.code}}</p>
+            <p>Categoría: {{this.category}}</p>
+            {{#if this.status}}
+            <p>Stock: {{this.stock}}</p>
+            <p class="price">Precio: S/. {{this.price}}</p>
+            <button type="button" class="btn btn-dark" onclick="addProduct('{{this._id}}');">Agregar al carrito</button>
+            {{else}}
+            <p class="no_product">Producto no disponible</p>
+            {{/if}}
+        </div>
         {{/each}}
     </div>
     <br><br>
     <nav aria-label="Page navigation example">
         <ul class="pagination justify-content-center">
             <li class="page-item {{#if products.hasPrevPage}} {{else}} disabled {{/if}}">
-                <a class="page-link" href="{{products.prevLink}}" >Anterior</a>
+                <a class="page-link" href="{{products.prevLink}}">Anterior</a>
             </li>
             {{#each products.pagination}}
-                <li class="page-item {{#if this.active}} active {{else}} {{/if}}"><a class="page-link" href={{this.link}}>{{this.page}}</a></li>
+            <li class="page-item {{#if this.active}} active {{else}} {{/if}}"><a class="page-link"
+                    href={{this.link}}>{{this.page}}</a></li>
             {{/each}}
             <li class="page-item {{#if products.hasNextPage}} {{else}} disabled {{/if}}">
                 <a class="page-link" href="{{products.nextLink}}">Siguiente</a>
@@ -36,3 +59,4 @@
 </div>
 
 <script src="/js/product.js"></script>
+<script src="/js/auth.js"></script>

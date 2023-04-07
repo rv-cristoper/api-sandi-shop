@@ -9,11 +9,22 @@ class SessionController {
             if (!email || !password) {
                 throw new Error(JSON.stringify({ detail: 'Todos los campos son obligatorios' }))
             }
-            const user = await UserModel.findOne({ email }).catch(err => {
-                throw new Error(JSON.stringify({ detail: 'Email o password invallido' }))
-            })
-            if (isEmpty(user) || user.password !== password) {
-                throw new Error(JSON.stringify({ detail: 'Email o password invallido' }))
+            let user;
+            if (email === 'adminCoder@coder.com' && password === 'adminCod3r123') {
+                user = {
+                    first_name: 'adminCoder@coder.com',
+                    rol: 'Admin',
+                    email: 'adminCoder@coder.com'
+                }
+            } else {
+                user = await UserModel.findOne({ email }).catch(err => {
+                    throw new Error(JSON.stringify({ detail: 'Email o password invallido' }))
+                })
+                if (isEmpty(user) || user.password !== password) {
+                    throw new Error(JSON.stringify({ detail: 'Email o password invallido' }))
+                }
+                user = JSON.parse(JSON.stringify(user))
+                user.rol = 'Usuario'
             }
             req.session.user = user
             res.json({ success: true })

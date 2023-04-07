@@ -57,9 +57,11 @@ class ViewController {
             result.pagination = pagination
             const newPayload = JSON.stringify(result)
             result = JSON.parse(newPayload)
+            const user = req.session.user
             return res.render('products', {
                 style: 'home.css',
-                products: result
+                products: result,
+                user
             })
         } catch (err) {
             return res.status(400).json({
@@ -101,11 +103,11 @@ class ViewController {
     }
 
     static async login(req, res) {
-        return res.render('login', {})
+        return res.render('login', { style: 'home.css' })
     }
 
     static async register(req, res) {
-        return res.render('register', {})
+        return res.render('register', { style: 'home.css' })
     }
 
     static async profile(req, res) {
