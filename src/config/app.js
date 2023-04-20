@@ -7,6 +7,8 @@ import { initDataBase } from '../db/mongodb.js';
 import cookieParser from 'cookie-parser';
 import session from 'express-session';
 import MongoStore from 'connect-mongo';
+import initPassport from './passport.config.js';
+import passport from 'passport'
 
 // Use env
 dotenv.config({ path: '.env' });
@@ -42,6 +44,11 @@ app.use(session({
     resave: false,
     saveUninitialized: false
 }))
+
+initPassport()
+
+app.use(passport.initialize())
+app.use(passport.session())
 
 // Assign routes
 RoutesController.createRoutes(app);
