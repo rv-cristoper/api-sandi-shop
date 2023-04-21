@@ -62,6 +62,11 @@ class SessionController {
         // }
     }
 
+    static async loginGithub(req, res) {
+        req.session.user = req.user
+        res.redirect('/products')
+    }
+
     static async logout(req, res) {
         req.session.destroy(err => {
             if (!err) res.send('Logout ok!')

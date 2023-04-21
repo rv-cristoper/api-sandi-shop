@@ -78,6 +78,11 @@ const handleLoginUser = async () => {
     }
 
 }
+
+const handleLoginGitHub = () => {
+    window.location.replace("/api/sessions/auth/github");
+}
+
 const logoutUser = async () => {
     try {
         await fetch(`/api/sessions/logout`,
