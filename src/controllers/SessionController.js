@@ -1,14 +1,37 @@
 import isEmpty from 'is-empty'
 import UserModel from '../dao/models/user.js'
+import { tokenGenerator } from '../config/utils.js'
 
 class SessionController {
 
+    static async current(req, res) {
+        try {
+            const token = req.cookies.token
+            const user = res.locals.user
+            if (token) {
+                const { _id } = user
+                let result = await UserModel.findById(_id)
+                result = JSON.parse(JSON.stringify(result))
+                delete result.password
+                return res.status(200).json(result)
+            }
+            return res.status(404).end()
+        } catch (error) {
+            res.status(500).send({ status: false, message: 'Error in current' });
+        }
+    }
+
     static async login(req, res) {
         let user = JSON.parse(JSON.stringify(res.locals.user))
-        user.rol = 'Usuario'
-        delete user.password;
-        req.session.user = user
-        res.json({ success: true })
+        const token = tokenGenerator(user);
+        res.cookie("token", token, {
+            maxAge: 60 * 60 * 1000,
+            httpOnly: true,
+        }).status(200).json({ success: true, token });
+        // user.rol = 'Usuario'
+        // delete user.password;
+        // req.session.user = user
+        // res.json({ success: true })
         // try {
         //     const { email, password } = req.body
         //     if (!email || !password) {
@@ -68,10 +91,15 @@ class SessionController {
     }
 
     static async logout(req, res) {
-        req.session.destroy(err => {
-            if (!err) res.send('Logout ok!')
-            else res.send({ status: 'Logout ERROR', body: err })
-        })
+        try {
+            res.clearCookie('token').status(200).json('Logout ok!')
+        } catch (err) {
+            res.status(500).send({ status: 'Logout ERROR', body: err });
+        }
+        // req.session.destroy(err => {
+        //     if (!err) res.send('Logout ok!')
+        //     else res.send({ status: 'Logout ERROR', body: err })
+        // })
     }
 
 }

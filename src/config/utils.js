@@ -2,6 +2,33 @@ import { fileURLToPath } from 'url'
 import { dirname } from 'path'
 import multer from 'multer'
 import bcrypt from 'bcrypt'
+import jsonwebtoken from 'jsonwebtoken'
+
+export const tokenGenerator = (user) => {
+    const payload = {
+        _id: user._id,
+        first_name: user.first_name,
+        last_name: user.last_name,
+        email: user.email,
+        age: user.age,
+        role: user.role === 'user' ? 'Usuario' : 'Administrador',
+    }
+    const token = jsonwebtoken.sign(payload, process.env.SECRET_KEY, { expiresIn: '24h' })
+    return token
+}
+
+export const isValidToken = (token) => {
+    return new Promise((resolve) => {
+        jsonwebtoken.verify(token, process.env.SECRET_KEY, (error, payload) => {
+            if (error) {
+                console.log('err', error)
+                return resolve({ status: false })
+            }
+            console.log('payload', payload)
+            return resolve({ status: true, user: payload })
+        })
+    })
+}
 
 export const createHash = (password) => {
     return bcrypt.hashSync(password, bcrypt.genSaltSync(10))

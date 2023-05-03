@@ -1,5 +1,6 @@
+{{#if success}}
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" href="#"><b>Bienvenido {{user.first_name}} {{user.last_name}} </b>|| Rol: {{user.rol}}</a>
+    <a class="navbar-brand" href="#"><b>Bienvenido {{user.first_name}} {{user.last_name}} </b>|| Rol: {{user.role}}</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
         aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -34,7 +35,7 @@
                                 <h5 class="mb-1">{{user.first_name}} {{user.last_name}}</h5>
                                 <div class="justify-content-start rounded-3 p-2 mb-2"
                                     style="background-color: #efefef;">
-                                    <p>Rol: <b>{{user.rol}}</b></p>
+                                    <p>Rol: <b>{{user.role}}</b></p>
                                     <p>Edad: <b>{{user.age}}</b></p>
                                     <p>Email: <b>{{user.email}}</b></p>
                                 </div>
@@ -47,3 +48,6 @@
     </div>
 </section>
 <script src="/js/auth.js"></script>
+{{else}}
+<h2>{{message}}</h2>
+{{/if}}
