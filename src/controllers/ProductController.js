@@ -1,6 +1,6 @@
 import isEmpty from 'is-empty';
-import ProductModel from '../dao/models/products.js'
 import CommonsUtils from '../utils/commons.js';
+import ProductService from '../services/product.service.js';
 
 class ProductController {
 
@@ -10,7 +10,7 @@ class ProductController {
         const opts = { limit, page }
         if (sort === 'asc' || sort === 'desc') opts.sort = { price: sort }
         try {
-            const response = await ProductModel.paginate(CommonsUtils.getFilter(query), opts)
+            const response = await ProductService.paginate(CommonsUtils.getFilter(query), opts)
             let result = CommonsUtils.buildResult({ ...response, sort })
             let pagination = [];
             if (result.prevPage) pagination.push({ page: result.prevPage, active: false, link: result.paginationLink.replace('numberPage', result.prevPage) })
@@ -33,7 +33,7 @@ class ProductController {
             let { pid } = req.params;
             pid = Number(pid);
             if (isNaN(pid)) { throw new Error(JSON.stringify({ id: 'El id tiene que ser de tipo numérico' })) }
-            const productById = await ProductModel.findOne({ id: pid })
+            const productById = await ProductService.getOne({ id: pid })
             if (!productById) return res.status(404).json({ message: 'Producto no encontrado' })
             return res.json({
                 message: "Producto encontrado",
@@ -67,7 +67,7 @@ class ProductController {
                 };
             });
             if (!isEmpty(error)) throw new Error(JSON.stringify(error));
-            await ProductModel.create(productData).catch(() => {
+            await ProductService.create(productData).catch(() => {
                 throw new Error(JSON.stringify({ detail: 'El tipo de dato no es correcto o el código ya existe' }))
             })
             return res.json({ message: 'El producto fue agregado exitosamente' });
@@ -89,7 +89,7 @@ class ProductController {
 
             if (isEmpty(productData)) throw new Error(JSON.stringify({ detail: 'No se ha ingresado nungún elemento a actualizar' }));
 
-            let productById = await ProductModel.findOne({ id: pid })
+            let productById = await ProductService.getOne({ id: pid })
             if (isEmpty(productById)) return res.status(404).json({ message: 'El producto a editar no existe' })
 
             const allowedFields = ['title', 'description', 'code', 'price', 'status', 'stock', 'category', 'thumbnails'];
@@ -104,12 +104,12 @@ class ProductController {
             if (!isEmpty(error)) throw new Error(JSON.stringify(error));
 
             if (!isEmpty(productData.code)) {
-                const productByCode = await ProductModel.findOne({ code: productData.code })
+                const productByCode = await ProductService.getOne({ code: productData.code })
                 if (!isEmpty(productByCode) && productByCode.id !== pid) {
                     throw new Error(JSON.stringify({ detail: `El código ${productData.code} ya se encuentra regitrado` }));
                 };
             }
-            await ProductModel.updateOne({ id: pid }, { $set: productData }).catch(() => {
+            await ProductService.updateOne(pid, { $set: productData }).catch(() => {
                 throw new Error(JSON.stringify({ detail: 'El tipo de dato no es correcto' }))
             })
             return res.json({
@@ -129,10 +129,10 @@ class ProductController {
             pid = Number(pid);
             if (isNaN(pid)) throw new Error(JSON.stringify({ detail: 'El id tiene que ser de tipo numérico' }));
 
-            const productById = await ProductModel.findOne({ id: pid })
+            const productById = await ProductService.getOne({ id: pid })
             if (isEmpty(productById)) return res.status(404).json({ message: 'El producto a eliminar no existe' })
 
-            await ProductModel.deleteOne({ id: pid })
+            await ProductService.deleteOne(pid)
             return res.json({
                 message: 'El producto fue eliminado exitosamente'
             });

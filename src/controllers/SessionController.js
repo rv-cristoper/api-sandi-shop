@@ -1,6 +1,5 @@
-import isEmpty from 'is-empty'
-import UserModel from '../dao/models/user.js'
 import { tokenGenerator } from '../config/utils.js'
+import UserService from '../services/user.service.js'
 
 class SessionController {
 
@@ -10,7 +9,7 @@ class SessionController {
             const user = res.locals.user
             if (token) {
                 const { _id } = user
-                let result = await UserModel.findById(_id)
+                let result = await UserService.getById(_id)
                 result = JSON.parse(JSON.stringify(result))
                 delete result.password
                 return res.status(200).json(result)

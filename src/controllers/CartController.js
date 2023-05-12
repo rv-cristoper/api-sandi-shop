@@ -1,6 +1,6 @@
 import isEmpty from 'is-empty';
-import CartModel from '../dao/models/carts.js';
-import ProductModel from '../dao/models/products.js'
+import ProductService from '../services/product.service.js';
+import CartService from '../services/cart.service.js';
 
 class CartController {
 
@@ -10,7 +10,7 @@ class CartController {
             cid = Number(cid);
             if (isNaN(cid)) throw new Error(JSON.stringify({ detail: 'El id tiene que ser de tipo numérico' }));
 
-            let cartById = await CartModel.findOne({ id: cid }).populate('products._id')
+            let cartById = await CartService.getOne({ id: cid }).populate('products._id')
             if (!cartById) return res.status(404).json({ message: 'Carrito no encontrado' })
 
             const newProducts = cartById.products.map((product) => {
@@ -37,7 +37,7 @@ class CartController {
 
     static async createCart(req, res) {
         try {
-            await CartModel.create({});
+            await CartService.create({});
             return res.json({
                 message: 'El carrito fue agregado exitosamente'
             });
@@ -50,10 +50,10 @@ class CartController {
             cid = Number(cid);
             if (isNaN(cid)) throw new Error(JSON.stringify({ detail: 'El id del carrito tiene que ser de tipo numérico' }));
 
-            let cartById = await CartModel.findOne({ id: cid })
+            let cartById = await CartService.getOne({ id: cid })
             if (!cartById) return res.status(404).json({ message: `No se encontró un carrito con el id ${cid}` })
 
-            const productById = await ProductModel.findById(pid).catch(err => {
+            const productById = await ProductService.getById(pid).catch(err => {
                 throw new Error(JSON.stringify({ detail: `No se encontró un producto con el id ${pid}` }))
             })
             if (isEmpty(productById)) return res.status(404).json({ message: `No se encontró un producto con el id ${pid}` })
@@ -75,7 +75,7 @@ class CartController {
                     quantity: 1
                 })
             }
-            await CartModel.updateOne({ id: cid }, { $set: { products: listProduct } })
+            await CartService.updateOne(cid, { $set: { products: listProduct } })
             return res.json({
                 message: 'El producto fue agregado al carrito exitosamente'
             });
@@ -93,13 +93,13 @@ class CartController {
             cid = Number(cid);
             if (isNaN(cid)) throw new Error(JSON.stringify({ detail: 'El id del carrito tiene que ser de tipo numérico' }));
 
-            let cartById = await CartModel.findOne({ id: cid })
+            let cartById = await CartService.getOne({ id: cid })
             if (!cartById) return res.status(404).json({ detail: `No se encontró un carrito con el id ${cid}` })
 
             const existProduct = cartById.products.find((product) => product._id.toString() === pid);
             if (!existProduct) return res.status(404).json({ detail: `No se encontró un producto en el carrito con el id ${pid}` })
 
-            await CartModel.updateOne({ id: cid }, { $pull: { products: { _id: pid } } });
+            await CartService.updateOne(cid, { $pull: { products: { _id: pid } } });
 
             return res.json({ message: "El producto fue eliminado exitosamente", });
         } catch (err) {
@@ -118,12 +118,12 @@ class CartController {
             cid = Number(cid);
             if (isNaN(cid)) throw new Error(JSON.stringify({ detail: 'El id del carrito tiene que ser de tipo numérico' }));
 
-            let cartById = await CartModel.findOne({ id: cid })
+            let cartById = await CartService.getOne({ id: cid })
             if (!cartById) return res.status(404).json({ detail: `No se encontró un carrito con el id ${cid}` })
 
             if (isEmpty(products)) throw new Error(JSON.stringify({ detail: 'No se ha ingresado nungún elemento a actualizar' }));
 
-            await CartModel.updateOne({ id: cid }, { $set: { products } }).catch(error => {
+            await CartService.updateOne(cid, { $set: { products } }).catch(error => {
                 throw new Error(JSON.stringify({ detail: 'Ha ocurrido un error en el envio de los productos' }));
             });
 
@@ -144,7 +144,7 @@ class CartController {
             cid = Number(cid);
             if (isNaN(cid)) throw new Error(JSON.stringify({ detail: 'El id del carrito tiene que ser de tipo numérico' }));
 
-            let cartById = await CartModel.findOne({ id: cid })
+            let cartById = await CartService.getOne({ id: cid })
             if (!cartById) return res.status(404).json({ detail: `No se encontró un carrito con el id ${cid}` })
 
             const existProduct = cartById.products.find((product) => product._id.toString() === pid);
@@ -152,7 +152,7 @@ class CartController {
 
             if (isEmpty(quantity)) throw new Error(JSON.stringify({ detail: 'No se ha ingresado nungún elemento a actualizar' }));
 
-            await CartModel.updateOne({ id: cid, "products._id": pid }, { $set: { "products.$.quantity": quantity } }).catch(error => {
+            await CartService.updateOne(cid, { $set: { "products.$.quantity": quantity } }, { "products._id": pid }).catch(error => {
                 throw new Error(JSON.stringify({ detail: 'Ha ocurrido un error al intentar actualizar la cantidad del producto' }));
             });
 
@@ -171,10 +171,10 @@ class CartController {
             cid = Number(cid);
             if (isNaN(cid)) throw new Error(JSON.stringify({ detail: 'El id del carrito tiene que ser de tipo numérico' }));
 
-            let cartById = await CartModel.findOne({ id: cid })
+            let cartById = await CartService.getOne({ id: cid })
             if (!cartById) return res.status(404).json({ detail: `No se encontró un carrito con el id ${cid}` })
 
-            await CartModel.updateOne({ id: cid }, { $set: { products: [] } });
+            await CartService.updateOne(cid, { $set: { products: [] } });
 
             return res.json({ message: "Los productos fueron eliminados del carrito exitosamente", });
         } catch (err) {

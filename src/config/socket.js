@@ -1,7 +1,7 @@
 import { Server } from "socket.io"
 import isEmpty from 'is-empty';
-import ProductModel from '../dao/models/products.js'
-import MessageModel from '../dao/models/message.js'
+import MessageService from "../services/message.service.js";
+import ProductService from "../services/product.service.js";
 
 let socketServer;
 
@@ -14,13 +14,13 @@ export const initSocket = (httpServer) => {
         console.log('Nuevo cliente conectado', socketClient.id)
 
         if (isEmpty(productList)) {
-            productList = await ProductModel.find();
+            productList = await ProductService.get();
         }
         socketServer.emit('productList', productList)
 
         socketClient.on('addProduct', async data => {
             const { user, product: prod } = data;
-            const productByCode = await ProductModel.findOne({ code: prod.code })
+            const productByCode = await ProductService.getOne({ code: prod.code })
             if (!isEmpty(productByCode)) {
                 return socketServer.emit('notification', {
                     type: 'error',
@@ -28,8 +28,8 @@ export const initSocket = (httpServer) => {
                     message: `El código ${prod.code} ya se encuentra regitrado`
                 })
             }
-            await ProductModel.create(prod)
-            productList = await ProductModel.find();
+            await ProductService.create(prod)
+            productList = await ProductService.get();
             socketServer.emit('productList', productList)
             socketServer.emit('notification', {
                 type: 'success',
@@ -40,8 +40,8 @@ export const initSocket = (httpServer) => {
 
         socketClient.on('deleteProduct', async data => {
             const { user, id } = data;
-            await ProductModel.deleteOne({ id })
-            productList = await ProductModel.find();
+            await ProductService.deleteOne(id)
+            productList = await ProductService.get();
             socketServer.emit('productList', productList);
             socketServer.emit('notification', {
                 type: 'success',
@@ -51,7 +51,7 @@ export const initSocket = (httpServer) => {
         })
 
         socketClient.on('newMessage', async data => {
-            await MessageModel.create(data)
+            await MessageService.create(data)
             socketServer.emit('newMessage', data)
         })
 

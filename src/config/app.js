@@ -2,7 +2,7 @@ import express from 'express';
 import handlebars from 'express-handlebars';
 import dotenv from "dotenv";
 import __dirname from './utils.js';
-import RoutesController from '../routes/index.js';
+import router from '../routes/index.js';
 import { initDataBase } from '../db/mongodb.js';
 import cookieParser from 'cookie-parser';
 import session from 'express-session';
@@ -52,7 +52,8 @@ app.use(passport.initialize())
 app.use(passport.session())
 
 // Assign routes
-RoutesController.createRoutes(app);
+app.use('', router)
+// RoutesController.createRoutes(app);
 
 app.use((err, req, res, next) => {
     if (err.url) {

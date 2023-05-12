@@ -1,8 +1,8 @@
 import passport from 'passport'
 import { Strategy as LocalStrategy } from 'passport-local'
-import UserModel from '../dao/models/user.js'
 import { createHash, validatePassword } from './utils.js'
 import { Strategy as GithubStrategy } from 'passport-github2'
+import UserService from '../services/user.service.js'
 
 const initPassportSession = () => {
 
@@ -31,11 +31,11 @@ const initPassportSession = () => {
         }
 
         try {
-            let user = await UserModel.findOne({ email })
+            let user = await UserService.getOne({ email })
             if (user) {
                 return done(null, false, { message: "El email ingresado ya existe o algún campo no es válido." })
             }
-            user = await UserModel.create({
+            user = await UserService.create({
                 first_name,
                 last_name,
                 email,
@@ -53,7 +53,7 @@ const initPassportSession = () => {
     passport.use('login', new LocalStrategy({ usernameField: 'email' }, async (username, password, done) => {
 
         try {
-            const user = await UserModel.findOne({ email: username })
+            const user = await UserService.getOne({ email: username })
 
             if (!user) {
                 return done(null, false, { message: "Email o password invallido." })
@@ -72,9 +72,9 @@ const initPassportSession = () => {
     passport.use(
         new GithubStrategy(githubOptions, async (accessToken, refreshToken, profile, done) => {
             try {
-                let user = await UserModel.findOne({ email: profile._json.email })
+                let user = await UserService.getOne({ email: profile._json.email })
                 if (!user) {
-                    user = await UserModel.create({
+                    user = await UserService.create({
                         first_name: profile._json.name,
                         last_name: '',
                         email: profile._json.email,
@@ -94,7 +94,7 @@ const initPassportSession = () => {
     })
 
     passport.deserializeUser(async (id, done) => {
-        let user = await UserModel.findById(id)
+        let user = await UserService.getById(id)
         done(null, user)
     })
 }

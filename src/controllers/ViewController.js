@@ -1,14 +1,14 @@
-import ProductModel from '../dao/models/products.js'
-import MessageModel from '../dao/models/message.js'
-import CartModel from '../dao/models/carts.js';
 import CommonsUtils from '../utils/commons.js';
 import isEmpty from 'is-empty';
+import ProductService from '../services/product.service.js';
+import CartService from '../services/cart.service.js';
+import MessageService from '../services/message.service.js';
 
 class ViewController {
 
     static async home(req, res) {
         try {
-            const response = await ProductModel.find().lean();
+            const response = await ProductService.get().lean();
             return res.render('home', {
                 style: 'home.css',
                 products: response
@@ -29,7 +29,7 @@ class ViewController {
 
     static async chat(req, res) {
         try {
-            const response = await MessageModel.find().lean();
+            const response = await MessageService.get().lean();
             return res.render('chat', {
                 style: 'home.css',
                 messages: response
@@ -48,7 +48,7 @@ class ViewController {
         const opts = { limit, page }
         if (sort === 'asc' || sort === 'desc') opts.sort = { price: sort }
         try {
-            const response = await ProductModel.paginate(CommonsUtils.getFilter(query), opts)
+            const response = await ProductService.paginate(CommonsUtils.getFilter(query), opts)
             let result = CommonsUtils.buildResult({ ...response, sort })
             let pagination = [];
             if (result.prevPage) pagination.push({ page: result.prevPage, active: false, link: result.paginationLink.replace('numberPage', result.prevPage) })
@@ -79,7 +79,7 @@ class ViewController {
             cid = Number(cid);
             if (isNaN(cid)) throw new Error(JSON.stringify({ detail: 'El id tiene que ser de tipo numérico' }));
 
-            const cartById = await CartModel.findOne({ id: cid }).populate('products._id')
+            const cartById = await CartService.getOne({ id: cid }).populate('products._id')
             if (isEmpty(cartById)) return res.status(404).json({ message: 'Carrito no encontrado' })
 
             const newProducts = cartById.products.map((product) => {
