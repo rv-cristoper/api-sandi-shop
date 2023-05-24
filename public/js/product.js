@@ -6,7 +6,11 @@ const addProduct = async (id) => {
             {
                 method: 'POST', headers: { 'Content-Type': 'application/json' },
             });
-        toastr.success('Producto agregado al carrito');
+        if (response.status === 200) {
+            toastr.success('Producto agregado al carrito');
+        }else {
+            toastr.error('Error al agregar producto al carrito');
+        }
         return await response.json();
     } catch (error) {
         toastr.error('Error al agregar producto al carrito');

@@ -8,11 +8,11 @@ const viewRouter = Router();
 viewRouter
     .get('', auth, ViewController.home)
     .get('/realtimeproducts', authJWT, ViewController.realtimeproducts)
-    .get('/chat', ViewController.chat)
+    .get('/chat', authJWTRole(['Usuario'], 'chat'), ViewController.chat)
     .get('/products', authJWTRole(['Usuario'], 'products'), ViewController.getProducts)
-    .get('/carts/:cid', authJWT, ViewController.getCart)
+    .get('/carts/:cid', authJWTRole(['Usuario'], 'products'), ViewController.getCart)
     .get('/login', session, ViewController.login)
     .get('/register', session, ViewController.register)
-    .get('/profile', authJWTRole(['admin'], 'profile'), ViewController.profile)
+    .get('/profile', authJWTRole(['Administrador'], 'profile'), ViewController.profile)
 
 export default viewRouter;

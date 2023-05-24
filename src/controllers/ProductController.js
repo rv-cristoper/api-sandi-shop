@@ -144,6 +144,19 @@ class ProductController {
         };
     }
 
+    static async updateProductStock(pid, qty) {
+        try {
+            const product = await ProductService.getById(pid)
+            let stock = product.stock
+            stock -= qty
+            await ProductService.updateOne(product.id, { $set: { stock } })
+            return true
+        } catch (error) {
+            return false
+        }
+
+    }
+
 }
 
 export default ProductController;

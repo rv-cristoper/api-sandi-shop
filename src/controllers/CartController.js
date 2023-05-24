@@ -1,6 +1,7 @@
 import isEmpty from 'is-empty';
 import ProductService from '../services/product.service.js';
 import CartService from '../services/cart.service.js';
+import ProductController from './ProductController.js';
 
 class CartController {
 
@@ -185,6 +186,49 @@ class CartController {
         }
     }
 
+    static async createOrder(req, res) {
+        try {
+            const { cid } = req.params;
+            const response = await CartService.getOne({ id: cid }).populate('products._id');
+            const products = JSON.parse(JSON.stringify(response.products));
+            const newProducts = products.map((product) => {
+                return {
+                    _id: product._id._id,
+                    quantity: product.quantity,
+                    available: product._id.stock >= product.quantity,
+                };
+            });
+            const available = newProducts.filter((product) => product.available);
+            const notAvailable = newProducts.filter((product) => !product.available);
+
+            if (available) {
+                available.map(async (e) => {
+                    await ProductController.updateProductStock(e._id, e.quantity);
+                });
+            }
+
+            let carrito = [];
+            
+            if (notAvailable) {
+                notAvailable.map((e) => {
+                    carrito.push({
+                        _id: e._id,
+                        quantity: e.quantity,
+                    });
+                });
+            }
+            await CartService.updateOne(cid, { $set: { products: carrito } });
+            return res.status(200).json({
+                message: "Su compra se proceso de manera exitosa",
+                noProcedProducts: notAvailable,
+            });
+        } catch (error) {
+            return res.status(400).json({
+                message: "Ocurrio un problema al procesar su compra",
+                error: JSON.parse(err.message),
+            });
+        }
+    }
 
 }
 

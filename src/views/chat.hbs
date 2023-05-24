@@ -1,3 +1,4 @@
+{{#if success}}
 <h1>Chat Sandi shop</h1>
 
 <form id="messageForm" name="messageForm" onsubmit="event.preventDefault(); onSubmitForm();">
@@ -16,3 +17,6 @@
 
 <script src="/socket.io/socket.io.js"></script>
 <script src="/js/script.js"></script>
+{{else}}
+<h2>{{message}}</h2>
+{{/if}}

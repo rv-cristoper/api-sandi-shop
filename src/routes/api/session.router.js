@@ -44,6 +44,6 @@ sessionRouter
         })
         res.redirect('/products')
     })
-    .get('/current', authJWTRole(['admin', 'Usuario']), SessionController.current)
+    .get('/current', authJWTRole(['Administrador', 'Usuario']), SessionController.current)
 
 export default sessionRouter;

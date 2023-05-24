@@ -3,12 +3,20 @@ import isEmpty from 'is-empty';
 import ProductService from '../services/product.service.js';
 import CartService from '../services/cart.service.js';
 import MessageService from '../services/message.service.js';
+import { ProductDao } from '../dao/factory.js';
+import config from '../config/index.js'
+
+let newProductDao
+const isFile = config.presistanceType === 'file'
+if (isFile) {
+    newProductDao = new ProductDao()
+}
 
 class ViewController {
 
     static async home(req, res) {
         try {
-            const response = await ProductService.get().lean();
+            const response = isFile ? await newProductDao.get() : await ProductDao.get().lean();
             return res.render('home', {
                 style: 'home.css',
                 products: response
@@ -78,7 +86,6 @@ class ViewController {
             let { cid } = req.params;
             cid = Number(cid);
             if (isNaN(cid)) throw new Error(JSON.stringify({ detail: 'El id tiene que ser de tipo numérico' }));
-
             const cartById = await CartService.getOne({ id: cid }).populate('products._id')
             if (isEmpty(cartById)) return res.status(404).json({ message: 'Carrito no encontrado' })
 
@@ -90,9 +97,12 @@ class ViewController {
                 }
             })
             const total = (newProducts.reduce((accumulator, current) => accumulator + Number(current.totalPrice), 0)).toFixed(2);
+            const user = res.locals.user
             return res.render('cart', {
                 style: 'home.css',
+                success: true,
                 products: newProducts,
+                user,
                 total
             })
         } catch (err) {

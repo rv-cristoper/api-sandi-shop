@@ -24,7 +24,6 @@ export const isValidToken = (token) => {
                 console.log('err', error)
                 return resolve({ status: false })
             }
-            console.log('payload', payload)
             return resolve({ status: true, user: payload })
         })
     })

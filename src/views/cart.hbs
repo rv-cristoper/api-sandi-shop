@@ -1,3 +1,26 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="#"><b>Bienvenido {{user.first_name}} {{user.last_name}} </b>|| Rol: {{user.role}}</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item ">
+                <a class="nav-link" href="http://localhost:8080/products"><b>Productos</b></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="http://localhost:8080/profile"><b>Perfil</b></a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link active" href="http://localhost:8080/carts/1"><b>Carrito</b></a>
+            </li>
+        </ul>
+        <div>
+            <button onclick="logoutUser()">Cerrar sesión</button>
+        </div>
+    </div>
+</nav>
 <div>
     <h1>Carrito de compras</h1>
     <div class="container table-responsive py-5">
@@ -33,5 +56,8 @@
                 </tr>
             </tbody>
         </table>
+        <button class="pay-button" onclick="buy()">Pagar</button>
     </div>
 </div>
+<script src="/js/cart.js"></script>
+<script src="/js/auth.js"></script>

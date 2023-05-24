@@ -10,12 +10,15 @@ import MongoStore from 'connect-mongo';
 import initPassportSession from './passport.config-session.js';
 import initPassport from './passport.config.js';
 import passport from 'passport'
+import config from './index.js'
 
 // Use env
 dotenv.config({ path: '.env' });
 
-// Use MongoDB
-initDataBase()
+if (config.presistanceType === 'mongodb') {
+    // Use MongoDB
+    await initDataBase()
+}
 
 const app = express();
 
