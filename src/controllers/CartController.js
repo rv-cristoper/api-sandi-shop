@@ -2,6 +2,7 @@ import isEmpty from 'is-empty';
 import ProductService from '../services/product.service.js';
 import CartService from '../services/cart.service.js';
 import ProductController from './ProductController.js';
+import TicketsService from '../services/tickets.service.js';
 
 class CartController {
 
@@ -189,26 +190,36 @@ class CartController {
     static async createOrder(req, res) {
         try {
             const { cid } = req.params;
+            const user = res.locals.user
             const response = await CartService.getOne({ id: cid }).populate('products._id');
             const products = JSON.parse(JSON.stringify(response.products));
             const newProducts = products.map((product) => {
                 return {
                     _id: product._id._id,
                     quantity: product.quantity,
+                    price: product._id.price,
                     available: product._id.stock >= product.quantity,
                 };
             });
-            const available = newProducts.filter((product) => product.available);
-            const notAvailable = newProducts.filter((product) => !product.available);
+            const available = newProducts.filter((product) => product.available).map((product) => { const { available, ...rest } = product; return rest });
+            const notAvailable = newProducts.filter((product) => !product.available).map((product) => { const { available, ...rest } = product; return rest });
+
+            const amount = available.reduce((acc, product) => acc + (product.price * product.quantity), 0);
+
+            const data = {
+                products: available,
+                purchaser: user.email,
+                amount: amount.toFixed(2)
+            }
 
             if (available) {
+                await TicketsService.create(data);
                 available.map(async (e) => {
                     await ProductController.updateProductStock(e._id, e.quantity);
                 });
             }
 
             let carrito = [];
-            
             if (notAvailable) {
                 notAvailable.map((e) => {
                     carrito.push({
