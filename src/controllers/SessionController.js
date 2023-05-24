@@ -9,9 +9,7 @@ class SessionController {
             const user = res.locals.user
             if (token) {
                 const { _id } = user
-                let result = await UserService.getById(_id)
-                result = JSON.parse(JSON.stringify(result))
-                delete result.password
+                let result = await UserService.getOneDTO(_id)
                 return res.status(200).json(result)
             }
             return res.status(404).end()

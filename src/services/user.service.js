@@ -1,4 +1,5 @@
 import UserModel from '../dao/models/user.js';
+import { userRepository } from '../repositories/index.js'
 
 export default class UserService {
     static get() {
@@ -12,5 +13,8 @@ export default class UserService {
     }
     static create(payload) {
         return UserModel.create(payload);
+    }
+    static getOneDTO(id) {
+        return userRepository.getById(id);
     }
 }
