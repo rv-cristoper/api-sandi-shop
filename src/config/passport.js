@@ -1,10 +1,20 @@
 import passport from 'passport'
 import { Strategy as LocalStrategy } from 'passport-local'
-import { createHash, validatePassword } from './utils.js'
+import { createHash, validatePassword } from '../utils/index.js'
 import { Strategy as GithubStrategy } from 'passport-github2'
+import { Strategy as JWTStrategy, ExtractJwt } from 'passport-jwt'
 import UserService from '../services/user.service.js'
+import config from '../config/index.js'
 
-const initPassportSession = () => {
+function cookieExtractor(req) {
+    let token = null
+    if (req && req.cookies) {
+        token = req.cookies.token
+    }
+    return token
+}
+
+const initPassport = () => {
 
     const options = {
         usernameField: 'email',
@@ -12,9 +22,9 @@ const initPassportSession = () => {
     }
 
     const githubOptions = {
-        clientID: process.env.GITHUB_CLIENT_ID,
-        clientSecret: process.env.GITHUB_CLIENT_SECRET,
-        callbackURL: process.env.GITHUB_CALLBACK
+        clientID: config.githubClientId,
+        clientSecret: config.githubClientSecret,
+        callbackURL: config.githubCallback
     }
 
     passport.use('register', new LocalStrategy(options, async (req, email, password, done) => {
@@ -97,6 +107,13 @@ const initPassportSession = () => {
         let user = await UserService.getById(id)
         done(null, user)
     })
+
+    passport.use('jwt', new JWTStrategy({
+        jwtFromRequest: ExtractJwt.fromExtractors([cookieExtractor]),
+        secretOrKey: config.secretKey,
+    }, (payload, done) => {
+        return done(null, payload)
+    }))
 }
 
-export default initPassportSession
+export default initPassport

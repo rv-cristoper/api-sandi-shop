@@ -1,4 +1,4 @@
-import { tokenGenerator } from '../config/utils.js'
+import { tokenGenerator } from '../utils/index.js'
 import UserService from '../services/user.service.js'
 
 class SessionController {

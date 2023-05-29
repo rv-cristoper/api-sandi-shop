@@ -1,4 +1,4 @@
-import UserDTO from '../dto/User.js'
+import User from '../models/User.js'
 
 export default class Contact {
     constructor(dao) {
@@ -11,7 +11,7 @@ export default class Contact {
 
     async getById (id) {
         const response = await this.dao.getById(id)
-        const userInfo = new UserDTO(response)
+        const userInfo = User.basicInfo(response)
         return userInfo
     }
 

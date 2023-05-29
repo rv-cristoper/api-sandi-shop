@@ -1,6 +1,6 @@
-import { isValidToken } from "../config/utils.js";
+import { isValidToken } from "../utils/index.js";
 import passport from 'passport'
-import Exception from '../config/exception.js'
+import Exception from '../utils/errors/exception.js'
 
 export const auth = (req, res, next) => {
     // if (req.session.user) {

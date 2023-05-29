@@ -1,6 +1,8 @@
 import isEmpty from 'is-empty';
 import CommonsUtils from '../utils/commons.js';
 import ProductService from '../services/product.service.js';
+import requiredFieldsIdentifier from '../lib/requiredFieldsIdentifier.js';
+import allowedFieldsIdentifier from '../lib/allowedFieldsIdentifier.js';
 
 class ProductController {
 
@@ -52,20 +54,10 @@ class ProductController {
             let error = {};
             const productData = req.body;
             const requiredFields = ['title', 'description', 'code', 'price', 'stock', 'category'];
-            requiredFields.forEach(field => {
-                if (!productData.hasOwnProperty(field)) {
-                    error[field] = 'El campo es obligatorio';
-                }
-            });
+            error = requiredFieldsIdentifier(requiredFields, productData);
             const allowedFields = [...requiredFields, 'thumbnails'];
-            Object.keys(productData).forEach(field => {
-                if (allowedFields.includes(field) && isEmpty(productData[field])) {
-                    error[field] = 'El campo no puede estar vacío';
-                };
-                if (!allowedFields.includes(field)) {
-                    error[field] = 'El campo no esta permitido';
-                };
-            });
+            const allowed = allowedFieldsIdentifier(allowedFields, productData);
+            error = { ...error, ...allowed };
             if (!isEmpty(error)) throw new Error(JSON.stringify(error));
             await ProductService.create(productData).catch(() => {
                 throw new Error(JSON.stringify({ detail: 'El tipo de dato no es correcto o el código ya existe' }))
@@ -93,14 +85,7 @@ class ProductController {
             if (isEmpty(productById)) return res.status(404).json({ message: 'El producto a editar no existe' })
 
             const allowedFields = ['title', 'description', 'code', 'price', 'status', 'stock', 'category', 'thumbnails'];
-            Object.keys(productData).forEach(field => {
-                if (allowedFields.includes(field) && isEmpty(productData[field])) {
-                    error[field] = 'El campo no puede estar vacío';
-                };
-                if (!allowedFields.includes(field)) {
-                    error[field] = 'El campo no esta permitido';
-                };
-            });
+            error = allowedFieldsIdentifier(allowedFields, productData);
             if (!isEmpty(error)) throw new Error(JSON.stringify(error));
 
             if (!isEmpty(productData.code)) {

@@ -3,6 +3,7 @@ import { dirname } from 'path'
 import multer from 'multer'
 import bcrypt from 'bcrypt'
 import jsonwebtoken from 'jsonwebtoken'
+import config from '../config/index.js'
 
 export const tokenGenerator = (user) => {
     const payload = {
@@ -13,13 +14,13 @@ export const tokenGenerator = (user) => {
         age: user.age,
         role: user.role === 'user' ? 'Usuario' : 'Administrador',
     }
-    const token = jsonwebtoken.sign(payload, process.env.SECRET_KEY, { expiresIn: '24h' })
+    const token = jsonwebtoken.sign(payload, config.secretKey, { expiresIn: '24h' })
     return token
 }
 
 export const isValidToken = (token) => {
     return new Promise((resolve) => {
-        jsonwebtoken.verify(token, process.env.SECRET_KEY, (error, payload) => {
+        jsonwebtoken.verify(token, config.secretKey, (error, payload) => {
             if (error) {
                 console.log('err', error)
                 return resolve({ status: false })

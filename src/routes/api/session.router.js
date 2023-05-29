@@ -2,7 +2,7 @@ import { Router } from "express";
 import SessionController from "../../controllers/SessionController.js";
 import passport from "passport"
 import { authJWTRole } from "../../middleware/auth.js";
-import { tokenGenerator } from "../../config/utils.js";
+import { tokenGenerator } from "../../utils/index.js";
 
 const sessionRouter = Router();
 

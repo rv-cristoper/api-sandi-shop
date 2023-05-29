@@ -1,9 +1,9 @@
 import mongoose from 'mongoose'
+import config from '../config/index.js'
 
 export const initDataBase = async () => {
     try {
-        const URI = process.env.MONGODB_URI
-        await mongoose.connect(URI)
+        await mongoose.connect(config.mongodbUri)
         console.log('Database connected.')
     } catch (error) {
         console.error('Error to connecto to database', error.message)
