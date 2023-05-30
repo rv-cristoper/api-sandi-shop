@@ -5,6 +5,8 @@ import { authJWTRole } from "../../middleware/auth.js";
 const productsRouter = Router();
 
 productsRouter
+    .get('/mockingproducts', ProductController.getMockingproducts)
+
     .get('', ProductController.getProducts)
     .get('/:pid', ProductController.getProductById)
     .post('', authJWTRole(['Administrador']), ProductController.createProduct)

@@ -3,6 +3,7 @@ import CommonsUtils from '../utils/commons.js';
 import ProductService from '../services/product.service.js';
 import requiredFieldsIdentifier from '../lib/requiredFieldsIdentifier.js';
 import allowedFieldsIdentifier from '../lib/allowedFieldsIdentifier.js';
+import generateProduct from '../lib/generateProduct.js';
 
 class ProductController {
 
@@ -140,6 +141,22 @@ class ProductController {
             return false
         }
 
+    }
+
+    static getMockingproducts(req, res) {
+        try {
+            const { count = 50 } = req.query;
+            let products = []
+            for (let i = 0; i < count; i++) {
+                products.push(generateProduct(i))
+            }
+            res.status(200).json({
+                status: "success",
+                payload: products
+            })
+        } catch (error) {
+
+        }
     }
 
 }
