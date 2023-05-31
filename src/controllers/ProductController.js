@@ -50,12 +50,12 @@ class ProductController {
         };
     }
 
-    static async createProduct(req, res) {
+    static async createProduct(req, res, next) {
         try {
             let error = {};
             const productData = req.body;
             const requiredFields = ['title', 'description', 'code', 'price', 'stock', 'category'];
-            error = requiredFieldsIdentifier(requiredFields, productData);
+            // error = requiredFieldsIdentifier(requiredFields, productData);
             const allowedFields = [...requiredFields, 'thumbnails'];
             const allowed = allowedFieldsIdentifier(allowedFields, productData);
             error = { ...error, ...allowed };
@@ -143,7 +143,7 @@ class ProductController {
 
     }
 
-    static getMockingproducts(req, res) {
+    static getMockingproducts(req, res, next) {
         try {
             const { count = 50 } = req.query;
             let products = []
@@ -155,7 +155,7 @@ class ProductController {
                 payload: products
             })
         } catch (error) {
-
+            next(error)
         }
     }
 

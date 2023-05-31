@@ -10,7 +10,7 @@ import MongoStore from 'connect-mongo';
 import initPassport from './passport.js';
 import passport from 'passport'
 import config from './index.js'
-// import errorMiddleware from '../utils/errors/MiddlewareError.js'
+import errorMiddleware from '../utils/errors/MiddlewareError.js'
 
 if (config.presistanceType === 'mongodb') {
     // Use MongoDB
@@ -52,19 +52,19 @@ app.use(passport.session())
 
 // Assign routes
 app.use('', router)
-// app.use(errorMiddleware)
+app.use(errorMiddleware)
 // RoutesController.createRoutes(app);
 
-app.use((err, req, res, next) => {
-console.log(err)
-if (err.url) {
-    return res.render(err.url, {
-        success: false,
-        message: 'No cuenta con permisos para acceder a este recurso',
-        statusCode: err.statusCode || 500
-    });
-}
-return res.status(500).send({ success: false, message: err.message })
-})
+// app.use((err, req, res, next) => {
+// console.log(err)
+// if (err.url) {
+//     return res.render(err.url, {
+//         success: false,
+//         message: 'No cuenta con permisos para acceder a este recurso',
+//         statusCode: err.statusCode || 500
+//     });
+// }
+// return res.status(500).send({ success: false, message: err.message })
+// })
 
 export default app;

@@ -9,7 +9,7 @@ viewRouter
     .get('', auth, ViewController.home)
     .get('/realtimeproducts', authJWT, ViewController.realtimeproducts)
     .get('/chat', authJWTRole(['Usuario'], 'chat'), ViewController.chat)
-    .get('/products', authJWTRole(['Usuario'], 'products'), ViewController.getProducts)
+    .get('/products', authJWTRole(['Usuario','Administrador'], 'products'), ViewController.getProducts)
     .get('/carts/:cid', authJWTRole(['Usuario'], 'products'), ViewController.getCart)
     .get('/login', session, ViewController.login)
     .get('/register', session, ViewController.register)
