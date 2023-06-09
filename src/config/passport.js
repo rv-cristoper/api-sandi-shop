@@ -5,6 +5,9 @@ import { Strategy as GithubStrategy } from 'passport-github2'
 import { Strategy as JWTStrategy, ExtractJwt } from 'passport-jwt'
 import UserService from '../services/user.service.js'
 import config from '../config/index.js'
+import getLogger from '../utils/logger.js'
+
+const logger = getLogger();
 
 function cookieExtractor(req) {
     let token = null
@@ -72,7 +75,6 @@ const initPassport = () => {
             if (!validatePassword(password, user)) {
                 return done(null, false, { message: "Email o password invallido." })
             }
-
             done(null, user)
         } catch (error) {
             return done(null, false, { message: 'Ocurrió un error al procesar su solicitud.' })

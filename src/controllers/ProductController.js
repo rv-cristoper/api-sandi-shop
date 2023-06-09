@@ -4,7 +4,9 @@ import ProductService from '../services/product.service.js';
 import requiredFieldsIdentifier from '../lib/requiredFieldsIdentifier.js';
 import allowedFieldsIdentifier from '../lib/allowedFieldsIdentifier.js';
 import generateProduct from '../lib/generateProduct.js';
+import getLogger from '../utils/logger.js';
 
+const logger = getLogger();
 class ProductController {
 
     static async getProducts(req, res) {
@@ -153,6 +155,23 @@ class ProductController {
             res.status(200).json({
                 status: "success",
                 payload: products
+            })
+        } catch (error) {
+            next(error)
+        }
+    }
+
+    static getLoggerTest(req, res, next) {
+        try {
+            logger.debug('Debug message');
+            logger.http('http message');
+            logger.info('Info message');
+            logger.warning('warning message');
+            logger.error('Error message');
+            logger.fatal('Fatal message');
+            res.status(200).json({
+                status: "success",
+                payload: "Test logger"
             })
         } catch (error) {
             next(error)

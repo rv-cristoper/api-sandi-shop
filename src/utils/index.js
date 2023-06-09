@@ -4,6 +4,9 @@ import multer from 'multer'
 import bcrypt from 'bcrypt'
 import jsonwebtoken from 'jsonwebtoken'
 import config from '../config/index.js'
+import getLogger from './logger.js'
+
+const logger = getLogger();
 
 export const tokenGenerator = (user) => {
     const payload = {
@@ -22,7 +25,8 @@ export const isValidToken = (token) => {
     return new Promise((resolve) => {
         jsonwebtoken.verify(token, config.secretKey, (error, payload) => {
             if (error) {
-                console.log('err', error)
+                // console.log('err', error)
+                logger.warning("isValidToken: ", error)
                 return resolve({ status: false })
             }
             return resolve({ status: true, user: payload })

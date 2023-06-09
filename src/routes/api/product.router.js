@@ -6,6 +6,7 @@ import { validateAddPRoduct } from '../../middleware/product.js';
 const productsRouter = Router();
 
 productsRouter
+    .get('/loggerTest', authJWTRole(['Administrador', 'Usuario']), ProductController.getLoggerTest)
     .get('/mockingproducts', authJWTRole(['Administrador']), ProductController.getMockingproducts)
 
     .get('', ProductController.getProducts)

@@ -9,4 +9,5 @@ export default {
     githubCallback: process.env.GITHUB_CALLBACK,
     secretKey: process.env.SECRET_KEY,
     presistanceType: process.env.PERSISTENCE_TYPE || 'file',
+    nodeEnv: process.env.NODE_ENV || 'desarrollo'
 }

@@ -1,0 +1,104 @@
+debug: Database connected.
+debug: Servidor ejecutandose en http://localhost:8080 en produccion.
+debug: Database connected.
+debug: Servidor ejecutandose en http://localhost:8080 en produccion.
+debug: Database connected.
+debug: Servidor ejecutandose en http://localhost:8080 en produccion.
+debug: Debug message
+http: http message
+info: Info message
+warning: warning message
+error: Error message
+debug: Database connected.
+debug: Servidor ejecutandose en http://localhost:8080 en produccion.
+error: MiddlewareError: 
+debug: Database connected.
+debug: Servidor ejecutandose en http://localhost:8080 en produccion.
+error: MiddlewareError: 
+debug: Database connected.
+debug: Servidor ejecutandose en http://localhost:8080 en produccion.
+debug: Database connected.
+debug: Servidor ejecutandose en http://localhost:8080 en produccion.
+error: MiddlewareError: 
+debug: Database connected.
+debug: Servidor ejecutandose en http://localhost:8080 en produccion.
+error: MiddlewareError: 
+debug: Database connected.
+debug: Servidor ejecutandose en http://localhost:8080 en produccion.
+error: MiddlewareError:  {"0":"Uno o más de los siguientes campos no son válidos o están incompletos.\n  Lista de campos obligatorios:\n    - title       : campo requerido \n    - description : Pulsera de corazones bañado en oro 2\n    - code        : bElYx37QYVIw74huBnjg 2\n    - price       : campo requerido \n    - stock       : campo requerido \n    - category    : Accesorios\n    "}
+debug: Database connected.
+debug: Servidor ejecutandose en http://localhost:8080 en produccion.
+debug: Database connected.
+debug: Servidor ejecutandose en http://localhost:8080 en produccion.
+debug: Database connected.
+debug: Servidor ejecutandose en http://localhost:8080 en produccion.
+debug: Database connected.
+debug: Servidor ejecutandose en http://localhost:8080 en produccion.
+debug: Database connected.
+debug: Servidor ejecutandose en http://localhost:8080 en produccion.
+debug: Debug message
+http: http message
+info: Info message
+warning: warning message
+error: Error message
+debug: Database connected.
+debug: Servidor ejecutandose en http://localhost:8080 en produccion.
+error: MiddlewareError:  Forbidden {"success":false}
+debug: Database connected.
+debug: Servidor ejecutandose en http://localhost:8080 en produccion.
+error: MiddlewareError:  Forbidden {"success":false}
+debug: Database connected.
+debug: Servidor ejecutandose en http://localhost:8080 en produccion.
+debug: Database connected.
+debug: Servidor ejecutandose en http://localhost:8080 en produccion.
+error: MiddlewareError:  Forbidden {"success":false}
+debug: Database connected.
+debug: Servidor ejecutandose en http://localhost:8080 en produccion.
+debug: Database connected.
+debug: Servidor ejecutandose en http://localhost:8080 en produccion.
+debug: Database connected.
+debug: Servidor ejecutandose en http://localhost:8080 en produccion.
+error: MiddlewareError:  Forbidden {"user":"Cristoper Runco","email":"adminCoder@coder.com"} {"success":false}
+debug: Database connected.
+debug: Servidor ejecutandose en http://localhost:8080 en produccion.
+debug: Database connected.
+debug: Servidor ejecutandose en http://localhost:8080 en produccion.
+debug: Debug message
+http: http message
+info: Info message
+warning: warning message
+error: Error message
+debug: Database connected.
+debug: Servidor ejecutandose en http://localhost:8080 en produccion.
+debug: Database connected.
+debug: Servidor ejecutandose en http://localhost:8080 en produccion.
+debug: Database connected.
+debug: Servidor ejecutandose en http://localhost:8080 en produccion.
+info: Nuevo inicio de sesión
+debug: Database connected.
+debug: Servidor ejecutandose en http://localhost:8080 en produccion.
+info: Nuevo inicio de sesión
+debug: Database connected.
+debug: Servidor ejecutandose en http://localhost:8080 en produccion.
+info: Nuevo inicio de sesión
+debug: Database connected.
+debug: Servidor ejecutandose en http://localhost:8080 en produccion.
+debug: Database connected.
+debug: Servidor ejecutandose en http://localhost:8080 en produccion.
+info: Nuevo inicio de sesión: [object Object]
+debug: Database connected.
+debug: Servidor ejecutandose en http://localhost:8080 en produccion.
+info: Nuevo inicio de sesión: [object Object]
+debug: Database connected.
+debug: Servidor ejecutandose en http://localhost:8080 en produccion.
+debug: Database connected.
+debug: Servidor ejecutandose en http://localhost:8080 en produccion.
+debug: Database connected.
+debug: Servidor ejecutandose en http://localhost:8080 en produccion.
+debug: Database connected.
+debug: Servidor ejecutandose en http://localhost:8080 en produccion.
+info: Nuevo inicio de sesión: [object Object]
+debug: Database connected.
+debug: Servidor ejecutandose en http://localhost:8080 en produccion.
+debug: Database connected.
+debug: Servidor ejecutandose en http://localhost:8080 en produccion.
