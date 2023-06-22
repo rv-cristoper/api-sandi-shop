@@ -7,7 +7,7 @@ const cartRouter = Router();
 cartRouter
     .get('/:cid', CartController.getCartById)
     .post('', CartController.createCart)
-    .post('/:cid/product/:pid', authJWTRole(['Usuario']), CartController.addProductsToCartById)
+    .post('/:cid/product/:pid', authJWTRole(['Usuario', 'Premium']), CartController.addProductsToCartById)
     .delete('/:cid/product/:pid', CartController.deleteProductById)
     .put('/:cid', CartController.updateAllProductsToCartById)
     .put('/:cid/product/:pid', CartController.updateQuantityProductToCartById)

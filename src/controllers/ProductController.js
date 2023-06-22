@@ -104,6 +104,11 @@ class ProductController {
                     throw new Error(JSON.stringify({ detail: `El código ${productData.code} ya se encuentra regitrado` }));
                 };
             }
+            const token = req.cookies.token;
+            const decoded = await isValidToken(token);
+            if(decoded.user.role === 'Premium' && decoded.user.email !== productById.owner){
+                throw new Error(JSON.stringify({ detail: `El producto fue registrado por otro usuario` }));
+            }
             await ProductService.updateOne(pid, { $set: productData }).catch(() => {
                 throw new Error(JSON.stringify({ detail: 'El tipo de dato no es correcto' }))
             })
@@ -127,13 +132,18 @@ class ProductController {
             const productById = await ProductService.getOne({ id: pid })
             if (isEmpty(productById)) return res.status(404).json({ message: 'El producto a eliminar no existe' })
 
+            const token = req.cookies.token;
+            const decoded = await isValidToken(token);
+            if(decoded.user.role === 'Premium' && decoded.user.email !== productById.owner){
+                throw new Error(JSON.stringify({ detail: `El producto fue registrado por otro usuario` }));
+            }
             await ProductService.deleteOne(pid)
             return res.json({
                 message: 'El producto fue eliminado exitosamente'
             });
         } catch (err) {
             return res.status(400).json({
-                message: 'Error al buscar el producto',
+                message: 'Error al eliminar el producto',
                 error: JSON.parse(err.message)
             });
         };

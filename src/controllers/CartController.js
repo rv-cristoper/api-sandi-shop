@@ -3,6 +3,7 @@ import ProductService from '../services/product.service.js';
 import CartService from '../services/cart.service.js';
 import ProductController from './ProductController.js';
 import TicketsService from '../services/tickets.service.js';
+import { isValidToken } from '../utils/index.js';
 
 class CartController {
 
@@ -59,6 +60,12 @@ class CartController {
                 throw new Error(JSON.stringify({ detail: `No se encontró un producto con el id ${pid}` }))
             })
             if (isEmpty(productById)) return res.status(404).json({ message: `No se encontró un producto con el id ${pid}` })
+
+            const token = req.cookies.token;
+            const decoded = await isValidToken(token);
+            if(decoded.user.role === 'Premium' && decoded.user.email === productById.owner){
+                throw new Error(JSON.stringify({ detail: `No puedes agregar un producto que te pertenece` }));
+            }
 
             let listProduct = cartById.products;
             const searchProductByIdInCart = listProduct.find(data => data._id.toString() === pid);
