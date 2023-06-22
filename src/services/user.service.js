@@ -17,4 +17,7 @@ export default class UserService {
     static getOneDTO(id) {
         return userRepository.getById(id);
     }
+    static updateOne(id, payload, extradata = {}) {
+        return UserModel.updateOne({ _id: id, ...extradata }, payload);
+    }
 }

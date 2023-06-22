@@ -11,6 +11,7 @@ const product = new mongoose.Schema({
     category: { type: String, require: true },
     thumbnails: { type: Array, default: [] },
     id: { type: Number, index: true },
+    owner: { type: String, default: 'admin' },
 }, { timestamps: true })
 
 product.plugin(mongoosePaginate)

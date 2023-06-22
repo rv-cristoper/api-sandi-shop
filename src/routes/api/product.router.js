@@ -11,8 +11,8 @@ productsRouter
 
     .get('', ProductController.getProducts)
     .get('/:pid', ProductController.getProductById)
-    .post('', authJWTRole(['Administrador']), validateAddPRoduct, ProductController.createProduct)
-    .put('/:pid', authJWTRole(['Administrador']), ProductController.updateProductById)
-    .delete('/:pid', authJWTRole(['Administrador']), ProductController.deleteProductById)
+    .post('', authJWTRole(['Administrador', 'Premium']), validateAddPRoduct, ProductController.createProduct)
+    .put('/:pid', authJWTRole(['Administrador', 'Premium']), ProductController.updateProductById)
+    .delete('/:pid', authJWTRole(['Administrador', 'Premium']), ProductController.deleteProductById)
 
 export default productsRouter;

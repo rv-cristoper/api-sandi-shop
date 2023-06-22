@@ -5,6 +5,7 @@ import requiredFieldsIdentifier from '../lib/requiredFieldsIdentifier.js';
 import allowedFieldsIdentifier from '../lib/allowedFieldsIdentifier.js';
 import generateProduct from '../lib/generateProduct.js';
 import getLogger from '../utils/logger.js';
+import { isValidToken } from '../utils/index.js';
 
 const logger = getLogger();
 class ProductController {
@@ -62,7 +63,13 @@ class ProductController {
             const allowed = allowedFieldsIdentifier(allowedFields, productData);
             error = { ...error, ...allowed };
             if (!isEmpty(error)) throw new Error(JSON.stringify(error));
-            await ProductService.create(productData).catch(() => {
+            const token = req.cookies.token;
+            const decoded = await isValidToken(token);
+            const newProductData = {
+                ...productData,
+                owner: decoded.user.role === 'Administrador' ? 'admin' : decoded.user.email
+            }
+            await ProductService.create(newProductData).catch(() => {
                 throw new Error(JSON.stringify({ detail: 'El tipo de dato no es correcto o el código ya existe' }))
             })
             return res.json({ message: 'El producto fue agregado exitosamente' });

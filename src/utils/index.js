@@ -9,13 +9,19 @@ import getLogger from './logger.js'
 const logger = getLogger();
 
 export const tokenGenerator = (user) => {
+    console.log(user)
+    const role = {
+        'user': 'Usuario',
+        'admin': 'Administrador',
+        'premium': 'Premium'
+    }
     const payload = {
         _id: user._id,
         first_name: user.first_name,
         last_name: user.last_name,
         email: user.email,
         age: user.age,
-        role: user.role === 'user' ? 'Usuario' : 'Administrador',
+        role: role[user.role] || 'Usuario',
     }
     const token = jsonwebtoken.sign(payload, config.secretKey, { expiresIn: '24h' })
     return token
