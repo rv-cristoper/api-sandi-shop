@@ -1,4 +1,4 @@
-import { tokenGenerator, tokenGeneratorPass } from '../utils/index.js'
+import { createHash, isValidToken, tokenGenerator, tokenGeneratorPass, validatePassword } from '../utils/index.js'
 import UserService from '../services/user.service.js'
 import MessageController from './MessageController.js'
 
@@ -88,13 +88,32 @@ class SessionController {
             const { email } = req.body;
             const user = await UserService.getOne({ email });
             const token = tokenGeneratorPass(user);
+            console.log(token)
             const sendEmail = await MessageController.mail(email, token);
             if (!sendEmail) throw new Error(JSON.stringify({ detail: 'Ocurrio un error al enviar el correo' }))
             return res.status(200).json({ message: "Correo enviado exitosamente" })
         } catch (error) {
             return res.status(400).json({
                 message: 'Error al recuperar contraseña',
-                error: JSON.parse(err.message)
+                error: JSON.parse(error.message)
+            });
+        }
+    }
+
+    static async resetPassword(req, res) {
+        try {
+            const { email, password } = req.body;
+            console.log({ email, password })
+            const user = await UserService.getOne({ email });
+            if (validatePassword(password, user)) throw new Error(JSON.stringify({ detail: "El password no puede ser el mismo, por favor intente nuevamente" }));
+            const hashedPassword = createHash(password);
+            user.password = hashedPassword;
+            await user.save();
+            return res.status(200).json({ message: "Se cambio la contraseña exitosamente" })
+        } catch (error) {
+            return res.status(400).json({
+                message: JSON.parse(error.message).detail,
+                error: JSON.parse(error.message)
             });
         }
     }

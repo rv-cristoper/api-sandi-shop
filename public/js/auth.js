@@ -93,8 +93,8 @@ const handleForgotPassword = async () => {
                 method: 'POST', headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(payload)
             })
-        
-        if (response.status === 500) {
+
+        if (response.status === 400) {
             const res = await response.json()
             return Swal.fire({
                 icon: "error",
@@ -116,6 +116,48 @@ const handleForgotPassword = async () => {
         reset.style.pointerEvents = "initial";
     }
 
+}
+
+const handleResetPass = async () => {
+    let email = document.forms["resetPass"]["email"].value;
+    try {
+        const pass1 = document.forms["resetPass"]["password"].value;
+        const pass2 = document.forms["resetPass"]["password2"].value;
+        if (pass1 !== pass2) {
+            return Swal.fire({
+                icon: "error",
+                title: 'Las contraseñas no coinciden',
+                confirmButtonText: "OK",
+            });
+        }
+        const payload = {
+            email,
+            password: pass1
+        };
+        const response = await fetch(`/api/sessions/reset-password`,
+            {
+                method: 'POST', headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            })
+
+        if (response.status === 400) {
+            const res = await response.json()
+            return Swal.fire({
+                icon: "error",
+                title: res.message,
+                confirmButtonText: "OK",
+            });
+        }
+        return Swal.fire({
+            icon: "success",
+            title: 'Cambio de contraseña exitosa!',
+            text: '',
+            confirmButtonText: "OK",
+        });
+
+    } catch (error) {
+        console.log(error)
+    }
 }
 
 const handleLoginGitHub = () => {

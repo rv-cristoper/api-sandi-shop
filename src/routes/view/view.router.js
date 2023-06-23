@@ -2,6 +2,7 @@ import { Router } from 'express';
 import ViewController from '../../controllers/ViewController.js';
 import { auth, authJWT, authJWTRole } from '../../middleware/auth.js';
 import { session } from '../../middleware/session.js';
+import { validResetPassword } from '../../middleware/user.js';
 
 const viewRouter = Router();
 
@@ -14,7 +15,7 @@ viewRouter
     .get('/login', session, ViewController.login)
     .get('/register', session, ViewController.register)
     .get('/forgot-password', session, ViewController.forgotPassword)
-    .get('/reset-password', session, ViewController.resetPassword)
+    .get('/reset-password', session, validResetPassword, ViewController.resetPassword)
     .get('/profile', authJWTRole(['Administrador'], 'profile'), ViewController.profile)
 
 export default viewRouter;

@@ -33,6 +33,7 @@ sessionRouter
     .post('/login', validateLogin, SessionController.login)
     .post('/register', validateRegister, SessionController.register)
     .post('/forgot-password', validForgotPassword, SessionController.forgotPassword)
+    .post('/reset-password', SessionController.resetPassword)
     .get('/logout', SessionController.logout)
     .get('/auth/github', passport.authenticate('github', { scope: ['user:email'] }))
     .get('/auth/github/callback', passport.authenticate('github', { failureRedirect: '/login' }), (req, res) => {
