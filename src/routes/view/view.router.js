@@ -13,6 +13,8 @@ viewRouter
     .get('/carts/:cid', authJWTRole(['Usuario', 'Premium'], 'products'), ViewController.getCart)
     .get('/login', session, ViewController.login)
     .get('/register', session, ViewController.register)
+    .get('/forgot-password', session, ViewController.forgotPassword)
+    .get('/reset-password', session, ViewController.resetPassword)
     .get('/profile', authJWTRole(['Administrador'], 'profile'), ViewController.profile)
 
 export default viewRouter;

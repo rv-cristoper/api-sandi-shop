@@ -3,6 +3,7 @@ import SessionController from "../../controllers/SessionController.js";
 import passport from "passport"
 import { authJWTRole } from "../../middleware/auth.js";
 import { tokenGenerator } from "../../utils/index.js";
+import { validForgotPassword } from "../../middleware/user.js";
 
 const sessionRouter = Router();
 
@@ -31,6 +32,7 @@ const validateLogin = (req, res, next) => {
 sessionRouter
     .post('/login', validateLogin, SessionController.login)
     .post('/register', validateRegister, SessionController.register)
+    .post('/forgot-password', validForgotPassword, SessionController.forgotPassword)
     .get('/logout', SessionController.logout)
     .get('/auth/github', passport.authenticate('github', { scope: ['user:email'] }))
     .get('/auth/github/callback', passport.authenticate('github', { failureRedirect: '/login' }), (req, res) => {

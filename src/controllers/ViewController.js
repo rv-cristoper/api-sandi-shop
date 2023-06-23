@@ -122,6 +122,14 @@ class ViewController {
         return res.render('register', { style: 'home.css' })
     }
 
+    static async forgotPassword(req, res) {
+        return res.render('forgotPassword', { style: 'home.css' })
+    }
+
+    static async resetPassword(req, res) {
+        return res.render('resetPassword', { style: 'home.css' })
+    }
+
     static async profile(req, res) {
         // const user = req.session.user
         const user = res.locals.user

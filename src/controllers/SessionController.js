@@ -1,5 +1,6 @@
-import { tokenGenerator } from '../utils/index.js'
+import { tokenGenerator, tokenGeneratorPass } from '../utils/index.js'
 import UserService from '../services/user.service.js'
+import MessageController from './MessageController.js'
 
 class SessionController {
 
@@ -80,6 +81,22 @@ class SessionController {
         //         error: JSON.parse(err.message)
         //     });
         // }
+    }
+
+    static async forgotPassword(req, res) {
+        try {
+            const { email } = req.body;
+            const user = await UserService.getOne({ email });
+            const token = tokenGeneratorPass(user);
+            const sendEmail = await MessageController.mail(email, token);
+            if (!sendEmail) throw new Error(JSON.stringify({ detail: 'Ocurrio un error al enviar el correo' }))
+            return res.status(200).json({ message: "Correo enviado exitosamente" })
+        } catch (error) {
+            return res.status(400).json({
+                message: 'Error al recuperar contraseña',
+                error: JSON.parse(err.message)
+            });
+        }
     }
 
     static async loginGithub(req, res) {

@@ -27,6 +27,25 @@ export const tokenGenerator = (user) => {
     return token
 }
 
+export const tokenGeneratorPass = (user) => {
+    console.log(user)
+    const role = {
+        'user': 'Usuario',
+        'admin': 'Administrador',
+        'premium': 'Premium'
+    }
+    const payload = {
+        _id: user._id,
+        first_name: user.first_name,
+        last_name: user.last_name,
+        email: user.email,
+        age: user.age,
+        role: role[user.role] || 'Usuario',
+    }
+    const token = jsonwebtoken.sign(payload, config.secretKey, { expiresIn: '1h' })
+    return token
+  };
+
 export const isValidToken = (token) => {
     return new Promise((resolve) => {
         jsonwebtoken.verify(token, config.secretKey, (error, payload) => {

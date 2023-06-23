@@ -79,6 +79,45 @@ const handleLoginUser = async () => {
 
 }
 
+const handleForgotPassword = async () => {
+    let reset = document.getElementById("recuperar");
+    reset.style.opacity = ".5";
+    reset.style.pointerEvents = "none";
+    try {
+        const email = document.forms["forgotPassword"]["email"].value;
+        const payload = {
+            email
+        };
+        const response = await fetch(`/api/sessions/forgot-password`,
+            {
+                method: 'POST', headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            })
+        
+        if (response.status === 500) {
+            const res = await response.json()
+            return Swal.fire({
+                icon: "error",
+                title: res.message,
+                confirmButtonText: "OK",
+            });
+        }
+        return Swal.fire({
+            icon: "success",
+            title: 'Recuperación exitosa!',
+            text: 'Revise su email para continuar con el proceso de recuperación de contraseña',
+            confirmButtonText: "OK",
+        });
+
+    } catch (error) {
+        console.log(error)
+    } finally {
+        reset.style.opacity = "1";
+        reset.style.pointerEvents = "initial";
+    }
+
+}
+
 const handleLoginGitHub = () => {
     window.location.replace("/api/sessions/auth/github");
 }
