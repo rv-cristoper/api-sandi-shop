@@ -11,6 +11,7 @@ import initPassport from './passport.js';
 import passport from 'passport'
 import config from './index.js'
 import errorMiddleware from '../utils/errors/MiddlewareError.js'
+import swagger from "./swagger.js";
 
 if (config.presistanceType === 'mongodb') {
     // Use MongoDB
@@ -49,6 +50,9 @@ initPassport()
 
 app.use(passport.initialize())
 app.use(passport.session())
+
+// Swagger
+swagger(app)
 
 // Assign routes
 app.use('', router)

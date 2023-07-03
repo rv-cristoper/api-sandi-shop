@@ -36,7 +36,7 @@ export const authJWTRole = (roles, url = '') => (req, res, next) => {
         }
         const userData = JSON.stringify({user: `${user.first_name} ${user.last_name}`, email: user.email});
         if (!user) {
-            return next(new Exception(`Unauthorized ${userData}`, 401, url))
+            return next(new Exception(`Unauthorized ${!userData ? userData : ''}`, 401, url))
         }
         if (!roles.includes(user.role)) {
             return next(new Exception(`Forbidden ${userData}`, 403, url))

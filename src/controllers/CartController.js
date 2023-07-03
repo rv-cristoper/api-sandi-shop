@@ -165,7 +165,7 @@ class CartController {
                 throw new Error(JSON.stringify({ detail: 'Ha ocurrido un error al intentar actualizar la cantidad del producto' }));
             });
 
-            return res.json({ message: "Los productos fueron actualizados del carrito exitosamente", });
+            return res.json({ message: "La cantidad del producto fue actualizada exitosamente", });
         } catch (err) {
             return res.status(400).json({
                 message: 'Error al actualizar los productos del carrito',

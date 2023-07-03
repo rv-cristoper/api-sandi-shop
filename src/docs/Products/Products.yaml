@@ -1,0 +1,329 @@
+paths:
+  /api/products:
+    get:
+      summary: Obtener productos
+      tags:
+        - Products
+      responses:
+        200:
+          descripton: Lista de prodcutos
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getProduct'
+        500:
+          description: Error interno del servidor
+    post:
+      summary: Crear producto
+      tags:
+        - Products
+      requestBody:
+        required: true
+        content:
+          application/json:
+              schema:
+                $ref: '#/components/schemas/postProduct'
+      responses:
+        200:
+          description: El producto fue agregado exitosamente
+        400:
+          description: Error en los datos enviados
+        401:
+          description: Inautorizado
+        500:
+          description: Error interno del servidor
+
+  /api/products/{id}:
+    get:
+      summary: Obtener producto por Id
+      tags:
+        - Products
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+          description: Id del producto
+      responses:
+        200:
+          description: Producto encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getProductById'
+        404:
+          description: Producto no encontrado
+        500:
+          description: Error interno del servidor
+    put:
+      summary: Actualizar producto
+      tags:
+        - Products
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+          description: Id del producto
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/putProductById'
+      responses:
+        200:
+          description: El producto fue actualizado exitosamente
+        401:
+          description: Inautorizado
+        404:
+          description: Producto no encontrado
+        500:
+          description: Error interno del servidor
+
+    delete:
+      summary: Eliminar producto
+      tags:
+        - Products
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+          description: Id del producto
+      responses:
+        200:
+          description: Producto eliminado
+        401:
+          description: Inautorizado  
+        404:
+          description: Producto no encontrado
+        500:
+          description: Error interno del servidor        
+
+components:
+  schemas:
+    getProduct:
+      type: object
+      properties:
+        status:
+          type: string
+          description: Estado de la respuesta
+        payload: 
+          type: array
+          description: Lista de productos
+          items:
+            type: object
+            properties:
+              owner:
+                type: string
+                description: Creador del producto
+              _id:
+                type: string
+                description: Id del producto
+              title:
+                type: string
+                description: Nombre del producto
+              description:
+                type: string
+                description: Description del producto
+              code:
+                type: string
+                description: Código del producto
+              price:
+                type: number
+                description: Precio del producto
+              status:
+                type: boolean
+                description: Estado del producto
+              stock:
+                type: number
+                description: Stock del producto
+              category:
+                type: string
+                description: Categoría del producto
+              thumbnails:
+                type: array
+                description: Imágenes del producto
+              createdAt:
+                type: string
+                description: Fecha de creación del producto
+              updatedAt:
+                type: string
+                description: Fecha de actualización del producto
+              __v:
+                type: number
+                description: Versión del producto
+              id:
+                type: string
+                description: Id autoincrementado del producto
+      example:
+        status: success
+        payload: [
+          {
+            owner: admin,
+            _id: 642271b79b66957cd45e26c1,
+            title: Pulsera Corazón Misterioso,
+            description: Producto de perlas marinas con forma de corazón,
+            code: 2gIcLLTc2ru88bpHNYsJa,
+            price: 33.23,
+            status: true,
+            stock: 0,
+            category: Accesorios,
+            thumbnails: [
+                https://res.cloudinary.com/cristoper/image/upload/v1673197431/sandi-shop/pulseraElastica_leirxc.webp
+            ],
+            createdAt: 2023-03-28T04:48:55.084Z,
+            updatedAt: 2023-05-24T01:14:56.695Z,
+            __v: 0,
+            id: 1
+          }
+        ]
+       
+    postProduct: 
+      type: object
+      properties:
+        title: 
+          type: string
+          description: Nombre del producto
+        description:
+          type: string
+          description: Descripción del producto
+        code: 
+          type: string
+          description: Código del producto
+        price: 
+          type: number
+          description: Precio del producto
+        stock: 
+          type: number
+          description: Stock del producto
+        category: 
+          type: string
+          description: Categoría del producto
+        thumbnails: 
+          type: array
+          description: Imágenes del producto
+      example:
+        title: Parlante short medic
+        description: .
+        code: t13Qx00kk7gWSnBp6HED
+        price: 111
+        stock: 11
+        category: technology
+        thumbnails: [
+          https://res.cloudinary.com/cristoper/image/upload/v1673197431/sandi-shop/parlanteJbl1_zi7rnq.webp
+        ]
+
+    getProductById:
+      type: object
+      properties:
+        message:
+          type: string
+          description: Estado de la respuesta
+        data: 
+          type: array
+          description: Lista de productos
+          items:
+            type: object
+            properties:
+              owner:
+                type: string
+                description: Creador del producto
+              _id:
+                type: string
+                description: Id del producto
+              title:
+                type: string
+                description: Nombre del producto
+              description:
+                type: string
+                description: Description del producto
+              code:
+                type: string
+                description: Código del producto
+              price:
+                type: number
+                description: Precio del producto
+              status:
+                type: boolean
+                description: Estado del producto
+              stock:
+                type: number
+                description: Stock del producto
+              category:
+                type: string
+                description: Categoría del producto
+              thumbnails:
+                type: array
+                description: Imágenes del producto
+              createdAt:
+                type: string
+                description: Fecha de creación del producto
+              updatedAt:
+                type: string
+                description: Fecha de actualización del producto
+              __v:
+                type: number
+                description: Versión del producto
+              id:
+                type: string
+                description: Id autoincrementado del producto
+      example:
+        status: success
+        payload: [
+          {
+            owner: admin,
+            _id: 642271b79b66957cd45e26c1,
+            title: Pulsera Corazón Misterioso,
+            description: Producto de perlas marinas con forma de corazón,
+            code: 2gIcLLTc2ru88bpHNYsJa,
+            price: 33.23,
+            status: true,
+            stock: 0,
+            category: Accesorios,
+            thumbnails: [
+                https://res.cloudinary.com/cristoper/image/upload/v1673197431/sandi-shop/pulseraElastica_leirxc.webp
+            ],
+            createdAt: 2023-03-28T04:48:55.084Z,
+            updatedAt: 2023-05-24T01:14:56.695Z,
+            __v: 0,
+            id: 1
+          }
+        ]
+
+    putProductById: 
+      type: object
+      properties:
+        title: 
+          type: string
+          description: Nombre del producto
+        description:
+          type: string
+          description: Descripción del producto
+        code: 
+          type: string
+          description: Código del producto
+        price: 
+          type: number
+          description: Precio del producto
+        stock: 
+          type: number
+          description: Stock del producto
+        category: 
+          type: string
+          description: Categoría del producto
+        status: 
+          type: boolean
+          description: Estado del producto
+      example:
+        title: Pulsera Corazón Misterioso
+        description: Producto de perlas marinas con forma de corazón
+        code: t13Qx00kk7gWSnBp6HED
+        price: 111
+        stock: 11
+        category: Accesorios
+        status: true
