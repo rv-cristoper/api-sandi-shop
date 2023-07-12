@@ -4,7 +4,7 @@ import supertest from 'supertest';
 const expect = chai.expect;
 const request = supertest('http://localhost:8080');
 
-describe('Cart Test', function () {
+describe('Session Test', function () {
     let email;
     const password = '1234'
     before(async function () {
