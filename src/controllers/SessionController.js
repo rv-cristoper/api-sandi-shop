@@ -125,6 +125,9 @@ class SessionController {
 
     static async logout(req, res) {
         try {
+            const token = req.cookies.token;
+            const decoded = await isValidToken(token);
+            await UserService.updateOne(decoded.user._id, { $set: { last_connection: new Date() } })
             res.clearCookie('token').status(200).json('Logout ok!')
         } catch (err) {
             res.status(500).send({ status: 'Logout ERROR', body: err });

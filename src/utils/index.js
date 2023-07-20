@@ -5,11 +5,14 @@ import bcrypt from 'bcrypt'
 import jsonwebtoken from 'jsonwebtoken'
 import config from '../config/index.js'
 import getLogger from './logger.js'
+import moment from 'moment'
 
 const logger = getLogger();
 
 export const tokenGenerator = (user) => {
     console.log(user)
+    const lastConnection = new Date(user.last_connection);
+    const last_connection = moment(lastConnection).format('DD-MM-YYYY HH:mm:ss');
     const role = {
         'user': 'Usuario',
         'admin': 'Administrador',
@@ -22,6 +25,7 @@ export const tokenGenerator = (user) => {
         email: user.email,
         age: user.age,
         role: role[user.role] || 'Usuario',
+        last_connection,
     }
     const token = jsonwebtoken.sign(payload, config.secretKey, { expiresIn: '24h' })
     return token
