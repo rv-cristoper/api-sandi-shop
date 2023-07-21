@@ -41,7 +41,7 @@ export const authJWTRole = (roles, url = '') => (req, res, next) => {
         if (!roles.includes(user.role)) {
             return next(new Exception(`Forbidden ${userData}`, 403, url))
         }
-        if (user.role === 'Usuario' && req.params.id && req.params.id !== user.id) {
+        if (user.role === 'Usuario' && req.params.id && req.params.id !== user._id) {
             return next(new Exception(`Forbiddens ${userData}`, 403, url))
         }
         res.locals.user = user

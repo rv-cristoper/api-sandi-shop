@@ -5,7 +5,7 @@ import UserController from '../../controllers/UserController.js';
 const usersRouter = Router();
 
 usersRouter
-    .put('/premium/:uid', authJWTRole(['Administrador']), UserController.updateRoleById)
+    .put('/premium/:uid', authJWTRole(['Administrador','Usuario', 'Premium']), UserController.updateRoleById)
     .post('/:id/documents', authJWTRole(['Administrador', 'Usuario', 'Premium']), UserController.uploadDocument)
 
 export default usersRouter;

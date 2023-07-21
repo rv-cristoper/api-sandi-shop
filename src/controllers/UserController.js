@@ -46,7 +46,17 @@ class UserController {
         'user': 'premium',
         'premium': 'user'
       }
-      await UserService.updateOne(uid, { $set: { role: roles[response.role] } })
+      const documentsRequered = [
+        "Identificación",
+        "Comprobante de domicilio",
+        "Comprobante de estado de cuenta",
+      ];
+      const validateDocuments = documentsRequered.every(documento => response.documents.some(objeto => objeto.name.toLowerCase() === documento.toLowerCase()));
+      if (response.role === 'premium' || (response.role === 'user' && validateDocuments)){
+        await UserService.updateOne(uid, { $set: { role: roles[response.role] } })
+      } else {
+        throw new Error(JSON.stringify({ detail: 'El usuario no ha terminado de procesar su documentación.' }))
+      }
       return res.json({
         message: 'El rol del usuario fue actualizado exitosamente'
       });
@@ -72,7 +82,8 @@ class UserController {
         })
         let rejectedDocuments = [];
         req.files.forEach(element => {
-          const newName = element.originalname.split('.')[0]
+          let newName = element.originalname.split('.')[0]
+          newName = Buffer.from(newName, 'latin1').toString('utf8')
           const documentExists = user.documents.find(doc => doc.name === newName);
           if (!documentExists) {
             user.documents.push({
