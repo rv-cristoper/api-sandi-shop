@@ -6,6 +6,7 @@ import allowedFieldsIdentifier from '../lib/allowedFieldsIdentifier.js';
 import generateProduct from '../lib/generateProduct.js';
 import getLogger from '../utils/logger.js';
 import { isValidToken } from '../utils/index.js';
+import MessageController from './MessageController.js';
 
 const logger = getLogger();
 class ProductController {
@@ -134,10 +135,13 @@ class ProductController {
 
             const token = req.cookies.token;
             const decoded = await isValidToken(token);
+            console.log("🚀 ~ file: ProductController.js:137 ~ ProductController ~ deleteProductById ~ decoded:", decoded)
             if(decoded.user.role === 'Premium' && decoded.user.email !== productById.owner){
                 throw new Error(JSON.stringify({ detail: `El producto fue registrado por otro usuario` }));
             }
-            await ProductService.deleteOne(pid)
+            const sendEmail = await MessageController.deleteProduct('jhanfranco01@gmail.com', 'Cristoper Runco', 'Parlante bluetooth');
+            if (!sendEmail) throw new Error(JSON.stringify({ detail: 'Ocurrio un error al enviar el correo' }))
+            // await ProductService.deleteOne(pid)
             return res.json({
                 message: 'El producto fue eliminado exitosamente'
             });
