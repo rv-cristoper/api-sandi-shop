@@ -141,10 +141,10 @@ export const plantillaDeleteProduct = (fullName, productName) => {
   
                                 <div style="font-size: 14px; line-height: 140%; text-align: left; word-wrap: break-word;">
                                   <p style="font-size: 14px; line-height: 140%;"><span
-                                      style="font-size: 18px; line-height: 25.2px; color: #666666;">Hola ${fullName}</span></p>
+                                      style="font-size: 18px; line-height: 25.2px; color: #666666;">Hola <b>${fullName}</b></span></p>
                                   <p style="font-size: 14px; line-height: 140%;">&nbsp;</p>
                                   <p style="font-size: 14px; line-height: 140%;"><span
-                                      style="font-size: 18px; line-height: 25.2px; color: #666666;">El producto de nombre "${productName}" fue eliminado de manera exitosa, si crees que fue un error comunícate con un administrador</span></p>
+                                      style="font-size: 18px; line-height: 25.2px; color: #666666;">El producto de nombre <b>${productName}</b> fue eliminado de manera exitosa, si crees que fue un error comunícate con un administrador</span></p>
                                 </div>
   
                               </td>
