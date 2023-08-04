@@ -20,4 +20,7 @@ export default class UserService {
     static updateOne(id, payload, extradata = {}) {
         return UserModel.updateOne({ _id: id, ...extradata }, payload);
     }
+    static deleteMany(payload) {
+        return UserModel.deleteMany(payload);
+    }
 }

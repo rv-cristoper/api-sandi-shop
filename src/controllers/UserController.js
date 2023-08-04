@@ -3,6 +3,8 @@ import multer from "multer";
 import path from "path";
 import fs from "fs";
 import __dirname from '../utils/index.js';
+import User from '../models/User.js';
+import moment from 'moment';
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -35,6 +37,22 @@ const storage = multer.diskStorage({
 const upload = multer({ storage });
 
 class UserController {
+
+  static async getAll(req, res) {
+    try {
+      let users = await UserService.get();
+      users = users.map(e => User.basicInfo(e))
+      return res.json({
+        users,
+        total: users.length
+      });
+    } catch (err) {
+      return res.status(400).json({
+        message: 'Error al obtener los usuarios',
+        error: err.message
+      });
+    }
+  }
 
   static async updateRoleById(req, res) {
     try {
@@ -109,6 +127,42 @@ class UserController {
       return res.status(400).json({
         message: "Error al subir los documentos",
         error: err.message,
+      });
+    }
+  }
+
+  static async deleteInactiveUsers(req, res) {
+    try {
+      const days = 2
+      const condition = moment().subtract(days, 'days').toDate();
+      let users = await UserService.get();
+      // users = users.filter(e => e.last_connection === null || moment(e.last_connection).toDate() < condition)
+      // if (!users.length) {
+      //   throw new Error('No hay usuarios inactivos')
+      // }
+      // const response = await UserService.deleteMany({ $or: [{ last_connection: { $lte: condition } }, { last_connection: { $exists: false } }] });
+      // if (!response.deletedCount > 0) {
+      //   throw new Error('No se pudieron eliminar los usuarios inactivos')
+      // }
+      users.forEach(e => {
+        const userData = User.basicInfo(e)
+        console.log(userData)
+      })
+      // for (const usuario of usuariosInactivos) {
+      //   const fullName = `${usuario.first_name} ${usuario.last_name}`;
+      //   const sendEmail = await MailingController.sendEmailDeleteUsers(
+      //     usuario.email,
+      //     fullName
+      //   );
+      //   if (!sendEmail) throw new Error(JSON.stringify({ detail: 'Ocurrio un error al enviar el correo' }))
+      // }
+      return res.json({
+        message: 'Los usuarios inactivos fueron eliminados exitosamente',
+      });
+    } catch (err) {
+      return res.status(400).json({
+        message: 'Error al eliminar los usuarios inactivos',
+        error: err.message
       });
     }
   }

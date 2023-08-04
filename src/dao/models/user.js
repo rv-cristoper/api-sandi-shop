@@ -17,7 +17,7 @@ const user = new mongoose.Schema({
         ],
         default: [],
     },
-    last_connection: { type: Date, default: Date.now },
+    last_connection: { type: Date, default: null },
 }, { timestamps: true })
 
 export default mongoose.model('user', user);

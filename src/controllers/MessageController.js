@@ -1,6 +1,7 @@
 import config from "../config/index.js";
 import emailService from "../services/email.service.js";
 import { plantillaDeleteProduct } from "./plantillaDeleteProduct.js";
+import { plantillaDeleteUser } from "./plantillaDeleteUser.js";
 import { plantillaForgotPass } from "./plantillaForgotPass.js";
 
 
@@ -24,6 +25,15 @@ class MessageController {
         );
         return true
     };
+
+    static async deleteUser(email, fullName) {
+        await emailService.sendEmail(
+            email,
+            "Usuario eliminado",
+            plantillaDeleteUser(fullName)
+        );
+        return true
+    }
 
 }
 
