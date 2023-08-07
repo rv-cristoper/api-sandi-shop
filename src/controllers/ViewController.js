@@ -5,6 +5,8 @@ import CartService from '../services/cart.service.js';
 import MessageService from '../services/message.service.js';
 import { ProductDao } from '../dao/factory.js';
 import config from '../config/index.js'
+import UserService from '../services/user.service.js';
+import User from '../models/User.js';
 
 let newProductDao
 const isFile = config.presistanceType === 'file'
@@ -139,6 +141,21 @@ class ViewController {
             style: 'home.css',
             success: true,
             user
+        })
+    }
+
+    static async users(req, res) {
+        let users = await UserService.get();
+        users = users.map((e, index) => {
+            return {
+                ...User.detailInfo(e),
+                index: index + 1
+            }
+        })
+        return res.render('users', {
+            style: 'home.css',
+            success: true,
+            users
         })
     }
 

@@ -17,5 +17,6 @@ viewRouter
     .get('/forgot-password', session, ViewController.forgotPassword)
     .get('/reset-password', session, validResetPassword, ViewController.resetPassword)
     .get('/profile', authJWTRole(['Administrador'], 'profile'), ViewController.profile)
+    .get('/users', authJWTRole(['Administrador'], 'users'), ViewController.users)
 
 export default viewRouter;

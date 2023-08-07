@@ -6,7 +6,7 @@ const usersRouter = Router();
 
 usersRouter
     .get('', authJWTRole(['Administrador']), UserController.getAll)
-    .put('/premium/:uid', authJWTRole(['Administrador','Usuario', 'Premium']), UserController.updateRoleById)
+    .put('/premium/:uid', authJWTRole(['Administrador']), UserController.updateRoleById)
     .post('/:id/documents', authJWTRole(['Administrador', 'Usuario', 'Premium']), UserController.uploadDocument)
     .delete('', authJWTRole(['Administrador']), UserController.deleteInactiveUsers)
 

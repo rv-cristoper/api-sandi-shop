@@ -7,4 +7,10 @@ export default class User {
     static basicInfo(user) {
         return new User(user)
     }
+    static detailInfo(user) {
+        return {
+            ...this.basicInfo(user),
+            _id: user._id,
+        }
+    }
 }

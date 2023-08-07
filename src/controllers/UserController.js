@@ -5,6 +5,7 @@ import fs from "fs";
 import __dirname from '../utils/index.js';
 import User from '../models/User.js';
 import moment from 'moment';
+import MessageController from './MessageController.js';
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -136,26 +137,18 @@ class UserController {
       const days = 2
       const condition = moment().subtract(days, 'days').toDate();
       let users = await UserService.get();
-      // users = users.filter(e => e.last_connection === null || moment(e.last_connection).toDate() < condition)
-      // if (!users.length) {
-      //   throw new Error('No hay usuarios inactivos')
-      // }
-      // const response = await UserService.deleteMany({ $or: [{ last_connection: { $lte: condition } }, { last_connection: { $exists: false } }] });
-      // if (!response.deletedCount > 0) {
-      //   throw new Error('No se pudieron eliminar los usuarios inactivos')
-      // }
-      users.forEach(e => {
+      users = users.filter(e => e.last_connection === null || moment(e.last_connection).toDate() < condition)
+      if (!users.length) {
+        throw new Error('No hay usuarios inactivos')
+      }
+      const response = await UserService.deleteMany({ $or: [{ last_connection: { $lte: condition } }, { last_connection: { $exists: false } }] });
+      if (!response.deletedCount > 0) {
+        throw new Error('No se pudieron eliminar los usuarios inactivos')
+      }
+      for (const e of users) {
         const userData = User.basicInfo(e)
-        console.log(userData)
-      })
-      // for (const usuario of usuariosInactivos) {
-      //   const fullName = `${usuario.first_name} ${usuario.last_name}`;
-      //   const sendEmail = await MailingController.sendEmailDeleteUsers(
-      //     usuario.email,
-      //     fullName
-      //   );
-      //   if (!sendEmail) throw new Error(JSON.stringify({ detail: 'Ocurrio un error al enviar el correo' }))
-      // }
+        await MessageController.deleteUser(userData.email, `${userData.name}`);
+      }
       return res.json({
         message: 'Los usuarios inactivos fueron eliminados exitosamente',
       });
