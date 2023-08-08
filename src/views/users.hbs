@@ -10,11 +10,11 @@
             <li class="nav-item ">
                 <a class="nav-link" href="http://localhost:8080/products"><b>Productos</b></a>
             </li>
-            <li class="nav-item ">
-                <a class="nav-link" href="http://localhost:8080/users"><b>Usuarios</b></a>
-            </li>
             <li class="nav-item active">
-                <a class="nav-link active" href="http://localhost:8080/profile"><b>Perfil</b></a>
+                <a class="nav-link active" href="http://localhost:8080/users"><b>Usuarios</b></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="http://localhost:8080/profile"><b>Perfil</b></a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="http://localhost:8080/carts/1"><b>Carrito</b></a>
@@ -34,6 +34,7 @@
                 <th scope="col">Nombre y Apellidos</th>
                 <th scope="col">Correo</th>
                 <th scope="col">Rol</th>
+                <th scope="col">Documentos</th>
                 <th scope="col">Acciones</th>
             </tr>
         </thead>
@@ -44,9 +45,10 @@
                 <td>{{this.name}}</td>
                 <td>{{this.email}}</td>
                 <td>{{this.role}}</td>
+                <td style="max-width: 250px;">{{this.documents}}</td>
                 <td>
                     <button type="button" class="btn btn-warning" onclick="changeRole('{{this._id}}');">Cambiar rol</button>
-                    <button type="button" class="btn btn-danger">Eliminar</button>
+                    <button type="button" class="btn btn-danger" onclick="deleteUser('{{this._id}}');">Eliminar</button>
                 </td>
             </tr>
             {{/each}}
@@ -54,6 +56,7 @@
     </table>
 </section>
 <script src="/js/user.js"></script>
+<script src="/js/auth.js"></script>
 {{else}}
 <h2>{{message}}</h2>
 {{/if}}

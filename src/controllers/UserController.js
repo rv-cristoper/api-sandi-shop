@@ -160,6 +160,24 @@ class UserController {
     }
   }
 
+  static async deleteUserByID(req, res) {
+    try {
+      const { id } = req.params;
+      await UserService.getById(id).catch(() => {
+        throw new Error('El usuario no fue encontrado')
+      })
+      await UserService.deleteOne({ _id: id });
+      return res.json({
+        message: `El usuario fue eliminado exitosamente`
+      });
+    } catch (err) {
+      return res.sendServerError({
+        message: "Error al eliminar el usuario",
+        error: err.message,
+      });
+    }
+  }
+
 }
 
 // Función auxiliar para obtener el tipo del archivo

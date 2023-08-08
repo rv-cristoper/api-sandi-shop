@@ -11,6 +11,7 @@ export default class User {
         return {
             ...this.basicInfo(user),
             _id: user._id,
+            documents: user.documents.map((e) => e.name).toString().replaceAll(',', ', '),
         }
     }
 }

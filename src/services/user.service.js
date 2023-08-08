@@ -23,4 +23,7 @@ export default class UserService {
     static deleteMany(payload) {
         return UserModel.deleteMany(payload);
     }
+    static deleteOne(id) {
+        return UserModel.deleteOne(id);
+    }
 }
