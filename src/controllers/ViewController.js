@@ -7,6 +7,7 @@ import { ProductDao } from '../dao/factory.js';
 import config from '../config/index.js'
 import UserService from '../services/user.service.js';
 import User from '../models/User.js';
+import Exception from '../utils/errors/exception.js';
 
 let newProductDao
 const isFile = config.presistanceType === 'file'
@@ -83,14 +84,16 @@ class ViewController {
         };
     }
 
-    static async getCart(req, res) {
+    static async getCart(req, res, next) {
         try {
             let { cid } = req.params;
             cid = Number(cid);
+            const userInfo = res.locals.user
+            
             if (isNaN(cid)) throw new Error(JSON.stringify({ detail: 'El id tiene que ser de tipo numérico' }));
             const cartById = await CartService.getOne({ id: cid }).populate('products._id')
             if (isEmpty(cartById)) return res.status(404).json({ message: 'Carrito no encontrado' })
-
+            if(cartById._id.toString() !== userInfo.cart) throw new Error(JSON.stringify({ detail: 'No tienes permisos para ver este carrito' }))
             const newProducts = cartById.products.map((product) => {
                 return {
                     ...product._id._doc,
@@ -108,10 +111,7 @@ class ViewController {
                 total
             })
         } catch (err) {
-            return res.status(400).json({
-                message: 'Error al mostrar Carrito',
-                error: JSON.parse(err.message)
-            });
+            return next(new Exception(`Unauthorized`, 401, 'users'))
         }
 
     }

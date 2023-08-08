@@ -26,6 +26,7 @@ export const tokenGenerator = (user) => {
         age: user.age,
         role: role[user.role] || 'Usuario',
         last_connection,
+        cart: user.cart
     }
     const token = jsonwebtoken.sign(payload, config.secretKey, { expiresIn: '24h' })
     return token

@@ -6,6 +6,7 @@ import { Strategy as JWTStrategy, ExtractJwt } from 'passport-jwt'
 import UserService from '../services/user.service.js'
 import config from '../config/index.js'
 import getLogger from '../utils/logger.js'
+import CartService from '../services/cart.service.js'
 
 const logger = getLogger();
 
@@ -48,12 +49,14 @@ const initPassport = () => {
             if (user) {
                 return done(null, false, { message: "El email ingresado ya existe o algún campo no es válido." })
             }
+            const cart = await CartService.create({});
             user = await UserService.create({
                 first_name,
                 last_name,
                 email,
                 age,
                 password: createHash(password),
+                cart: cart._id
             })
 
             done(null, user)
