@@ -22,11 +22,11 @@ export default class CommonsUtils {
             page,
             hasPrevPage,
             hasNextPage,
-            prevLink: !hasPrevPage ? null : `${baseUrl}/products?page=${prevPage}&limit=${limit}${sort ? `&sort=${sort}` : ''}`,
-            nextLink: !hasNextPage ? null : `${baseUrl}/products?page=${nextPage}&limit=${limit}${sort ? `&sort=${sort}` : ''}`,
+            prevLink: !hasPrevPage ? null : `products?page=${prevPage}&limit=${limit}${sort ? `&sort=${sort}` : ''}`,
+            nextLink: !hasNextPage ? null : `products?page=${nextPage}&limit=${limit}${sort ? `&sort=${sort}` : ''}`,
             sort,
-            sortLink: `${baseUrl}/products?page=${page}&limit=${limit}&sort=${sort === 'asc' ? 'desc' : 'asc'}`,
-            paginationLink: `${baseUrl}/products?page=numberPage&limit=${limit}${sort ? `&sort=${sort}` : ''}`
+            sortLink: `products?page=${page}&limit=${limit}&sort=${sort === 'asc' ? 'desc' : 'asc'}`,
+            paginationLink: `products?page=numberPage&limit=${limit}${sort ? `&sort=${sort}` : ''}`
         }
     }
 
