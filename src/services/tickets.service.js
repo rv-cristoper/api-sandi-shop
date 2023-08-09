@@ -1,6 +1,5 @@
 import TicketModel from '../dao/models/tickets.js'
 
-
 export default class TicketsService {
   static create(body) {
     return TicketModel.create(body);
@@ -22,7 +21,6 @@ export default class TicketsService {
   static async updateOne(id, body) {
     return TicketModel.updateOne({ id }, { $set: { products: body } });
   }
-
 
   static delete(id) {
     return TicketModel.deleteOne({ _id: id });

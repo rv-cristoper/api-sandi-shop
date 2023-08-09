@@ -29,7 +29,7 @@ const deleteUser = async (id) => {
                 headers: { 'Content-Type': 'application/json' }
             });
         if (response.status === 200) {
-            toastr.success('Se elimino el usuario exitosamente');
+            toastr.success('Se eliminó el usuario exitosamente');
             setTimeout(() => {
                 window.location.reload();
             }, 3000);

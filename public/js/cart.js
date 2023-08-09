@@ -12,7 +12,7 @@ const buy = async (cid) => {
                 location.reload();
             }, 3000);
         } else {
-            throw new Error('Ocurrio un problema al procesar su compra');
+            throw new Error('Ocurrió un problema al procesar su compra');
         }
         return await response.json();
     } catch (error) {
@@ -30,10 +30,10 @@ const deleteProduct = async (cid, pid) => {
         if (response.status === 200) {
             location.reload();
         } else {
-            throw new Error('Ocurrio un problema al eliminar el producto del carrito');
+            throw new Error('Ocurrió un problema al eliminar el producto del carrito');
         }
         return await response.json();
     } catch (error) {
-        toastr.error('Ocurrio un problema al eliminar el producto del carrito');
+        toastr.error('Ocurrió un problema al eliminar el producto del carrito');
     }
 }

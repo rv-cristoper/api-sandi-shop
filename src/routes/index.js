@@ -6,23 +6,6 @@ import sessionRouter from './api/session.router.js';
 import viewRouter from './view/view.router.js';
 import usersRouter from './api/users.router.js';
 
-// class RoutesController {
-//     static createRoutes(app) {
-//         // API
-//         app.use('/api/products', productsRouter)
-//         app.use('/api/carts', cartRouter)
-//         app.use('/api/sessions', sessionRouter)
-
-//         // COOKIE
-//         app.use('/cookie', cookiesRouter)
-
-//         // VIEW
-//         app.use('', viewRouter)
-//     }
-// }
-
-// export default RoutesController;
-
 const router = Router()
 
 // API

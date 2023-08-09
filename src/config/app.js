@@ -1,6 +1,5 @@
 import express from 'express';
 import handlebars from 'express-handlebars';
-import dotenv from "dotenv";
 import __dirname from '../utils/index.js';
 import router from '../routes/index.js';
 import { initDataBase } from './mongodb.js';
@@ -57,18 +56,5 @@ swagger(app)
 // Assign routes
 app.use('', router)
 app.use(errorMiddleware)
-// RoutesController.createRoutes(app);
-
-// app.use((err, req, res, next) => {
-// console.log(err)
-// if (err.url) {
-//     return res.render(err.url, {
-//         success: false,
-//         message: 'No cuenta con permisos para acceder a este recurso',
-//         statusCode: err.statusCode || 500
-//     });
-// }
-// return res.status(500).send({ success: false, message: err.message })
-// })
 
 export default app;

@@ -3,9 +3,6 @@ import passport from 'passport'
 import Exception from '../utils/errors/exception.js'
 
 export const auth = (req, res, next) => {
-    // if (req.session.user) {
-    //     return next()
-    // }
     if (req.cookies.token) {
         return next()
     }

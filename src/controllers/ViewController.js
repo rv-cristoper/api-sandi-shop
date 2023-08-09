@@ -68,7 +68,6 @@ class ViewController {
             result.pagination = pagination
             const newPayload = JSON.stringify(result)
             result = JSON.parse(newPayload)
-            // const user = req.session.user
             const user = res.locals.user
             return res.render('products', {
                 style: 'home.css',
@@ -135,7 +134,6 @@ class ViewController {
     }
 
     static async profile(req, res) {
-        // const user = req.session.user
         const user = res.locals.user
         return res.render('profile', {
             style: 'home.css',

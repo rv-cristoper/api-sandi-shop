@@ -1,6 +1,6 @@
 export const generatorUserError = (user) => {
-  return `One or more of the following fields are invalid or incomplete.
-    List of required fields:
+  return `Uno o más de los siguientes campos no son válidos o están incompletos.
+    Lista de campos obligatorios:
       - firstName : ${user.firstName}
       - lastName  : ${user.lastName}
       - email     : ${user.email}

@@ -35,7 +35,6 @@ const handleCreateUser = async () => {
             text: 'Redirigiendo al inico de sesión...',
             showConfirmButton: false
         });
-
     } catch (error) {
         console.log(error)
     }
@@ -72,13 +71,10 @@ const handleLoginUser = async () => {
             text: 'Redirigiendo al listado de los productos...',
             showConfirmButton: false
         });
-
     } catch (error) {
         console.log(error)
     }
-
 }
-
 const handleForgotPassword = async () => {
     let reset = document.getElementById("recuperar");
     reset.style.opacity = ".5";
@@ -108,16 +104,13 @@ const handleForgotPassword = async () => {
             text: 'Revise su email para continuar con el proceso de recuperación de contraseña',
             confirmButtonText: "OK",
         });
-
     } catch (error) {
         console.log(error)
     } finally {
         reset.style.opacity = "1";
         reset.style.pointerEvents = "initial";
     }
-
 }
-
 const handleResetPass = async () => {
     let email = document.forms["resetPass"]["email"].value;
     try {
@@ -154,16 +147,13 @@ const handleResetPass = async () => {
             text: '',
             confirmButtonText: "OK",
         });
-
     } catch (error) {
         console.log(error)
     }
 }
-
 const handleLoginGitHub = () => {
     window.location.replace("/api/sessions/auth/github");
 }
-
 const logoutUser = async () => {
     try {
         await fetch(`/api/sessions/logout`,

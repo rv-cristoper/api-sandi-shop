@@ -18,27 +18,4 @@ export default class Product {
     return products;
   }
 
-  // create(data) {
-  //   const contact = { ...data, id: this.contacts.length + 1 }
-  //   this.contacts.push(contact)
-  //   return contact
-  // }
-
-
-  // getById(id) {
-  //   return this.contacts.find(contact => String(contact.id) === id)
-  // }
-
-  // updateById(id, data) {
-  //   const index = this.contacts.findIndex(contact => String(contact.id) === id)
-  //   this.contacts[index] = { ...data, id }
-  //   return this.contacts[index]
-  // }
-
-  // deleteById(id) {
-  //   const index = this.contacts.findIndex(contact => String(contact.id) === id)
-  //   const result = this.contacts.splice(index, 1)
-  //   return result
-  // }
-
 }

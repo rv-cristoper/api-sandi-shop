@@ -26,14 +26,12 @@ export const validForgotPassword = async (req, res, next) => {
 
 export const validResetPassword = async (req, res, next) => {
     try {
-
         const { token } = req.query;
         const response = await isValidToken(token);
         if(!response.status) throw new Error(`Estas tratando de acceder a una ruta que no se encuentra disponible por el momento, si en caso restableciste tu contraseña prueba intentandolo nuevamente`);
         const user = await UserService.getOne({email:response.user.email});
         res.locals.user = user
         next();
-
     } catch (err) {
         res.status(400).json({ message: err.message });
     }

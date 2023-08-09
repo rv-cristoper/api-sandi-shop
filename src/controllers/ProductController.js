@@ -1,7 +1,6 @@
 import isEmpty from 'is-empty';
 import CommonsUtils from '../utils/commons.js';
 import ProductService from '../services/product.service.js';
-import requiredFieldsIdentifier from '../lib/requiredFieldsIdentifier.js';
 import allowedFieldsIdentifier from '../lib/allowedFieldsIdentifier.js';
 import generateProduct from '../lib/generateProduct.js';
 import getLogger from '../utils/logger.js';
@@ -60,7 +59,6 @@ class ProductController {
             let error = {};
             const productData = req.body;
             const requiredFields = ['title', 'description', 'code', 'price', 'stock', 'category'];
-            // error = requiredFieldsIdentifier(requiredFields, productData);
             const allowedFields = [...requiredFields, 'thumbnails'];
             const allowed = allowedFieldsIdentifier(allowedFields, productData);
             error = { ...error, ...allowed };
@@ -142,7 +140,7 @@ class ProductController {
             const userDetails = await UserService.getOne({ email: productById.owner })
             if (!isEmpty(userDetails) && userDetails.role === 'premium') {
                 const sendEmail = await MessageController.deleteProduct(userDetails.email, `${userDetails.first_name} ${userDetails.last_name}`, productById.title);
-                if (!sendEmail) throw new Error(JSON.stringify({ detail: 'Ocurrio un error al enviar el correo' }))
+                if (!sendEmail) throw new Error(JSON.stringify({ detail: 'Ocurrió un error al enviar el correo' }))
             }
             await ProductService.deleteOne(pid)
             return res.json({

@@ -237,7 +237,7 @@ class CartController {
             }
             await CartService.updateOne(cid, { $set: { products: carrito } });
             return res.status(200).json({
-                message: "Su compra se proceso de manera exitosa",
+                message: "Su compra se procesó de manera exitosa",
                 noProcedProducts: notAvailable,
             });
         } catch (error) {
