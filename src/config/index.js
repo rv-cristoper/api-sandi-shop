@@ -2,7 +2,7 @@ import dotenv from "dotenv";
 dotenv.config({ path: '.env' });
 
 export default {
-    port: process.env.PORT || 8080,
+    port: process.env.PORT,
     mongodbUri: process.env.MONGODB_URI,
     githubClientId: process.env.GITHUB_CLIENT_ID,
     githubClientSecret: process.env.GITHUB_CLIENT_SECRET,
