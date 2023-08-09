@@ -1,8 +1,8 @@
 import config from "../config/index.js";
 import emailService from "../services/email.service.js";
-import { plantillaDeleteProduct } from "./plantillaDeleteProduct.js";
-import { plantillaDeleteUser } from "./plantillaDeleteUser.js";
-import { plantillaForgotPass } from "./plantillaForgotPass.js";
+import { plantillaDeleteProduct } from "../templates/plantillaDeleteProduct.js";
+import { plantillaDeleteUser } from "../templates/plantillaDeleteUser.js";
+import { plantillaForgotPass } from "../templates/plantillaForgotPass.js";
 
 
 class MessageController {
