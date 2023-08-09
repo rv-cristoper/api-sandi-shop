@@ -1,5 +1,5 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" href="#"><b>Bienvenido {{user.first_name}} {{user.last_name}} </b>|| Rol: {{user.role}}</a>
+    <a class="navbar-brand" href="#"><p>Bienvenido <b>{{user.first_name}} {{user.last_name}}</b> || Rol: <b>{{user.role}}</b></p></a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
         aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -16,7 +16,7 @@
                 <a class="nav-link" href="http://localhost:8080/profile"><b>Perfil</b></a>
             </li>
             <li class="nav-item active">
-                <a class="nav-link active" href="http://localhost:8080/carts/1"><b>Carrito</b></a>
+                <a class="nav-link active" href="http://localhost:8080/carts/{{user.cartId}}"><b>Carrito</b></a>
             </li>
         </ul>
         <div>
@@ -25,8 +25,8 @@
     </div>
 </nav>
 <div>
-    <h1>Carrito de compras</h1>
-    <div class="container table-responsive py-5">
+    <h2>Carrito de compras</h2>
+    <div class="container table-responsive pb-5">
         <table class="table table-bordered table-hover">
             <thead class="thead-dark">
                 <tr>
@@ -36,6 +36,7 @@
                     <th scope="col">Cantidad</th>
                     <th scope="col">Precio unitario</th>
                     <th scope="col">Precio</th>
+                    <th scope="col"></th>
                 </tr>
             </thead>
             <tbody>
@@ -47,6 +48,7 @@
                     <td>{{this.quantity}}</td>
                     <td>S/. {{this.price}}</td>
                     <td>S/. {{this.totalPrice}}</td>
+                    <td class="text-center"><span title="Eliminar" style="cursor: pointer;" onclick="deleteProduct('{{../user.cartId}}', '{{this._id}}')">❌</span></td>
                 </tr>
                 {{/each}}
                 <tr>
@@ -59,7 +61,9 @@
                 </tr>
             </tbody>
         </table>
-        <button class="pay-button" onclick="buy()">Pagar</button>
+        <div class="d-flex justify-content-end">
+            <button type="button" class="btn btn-dark w-25" onclick="buy('{{user.cartId}}')">Pagar</button>
+        </div>
     </div>
 </div>
 <script src="/js/cart.js"></script>

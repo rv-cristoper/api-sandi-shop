@@ -1,6 +1,6 @@
-const buy = async () => {
+const buy = async (cid) => {
     try {
-        const response = await fetch(`/api/carts/1/purchase`, {
+        const response = await fetch(`/api/carts/${cid}/purchase`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -8,12 +8,32 @@ const buy = async () => {
         });
         if (response.status === 200) {
             toastr.success('Su compra se proceso de manera exitosa');
-            location.reload();
+            setTimeout(() => {
+                location.reload();
+            }, 3000);
         } else {
             throw new Error('Ocurrio un problema al procesar su compra');
         }
         return await response.json();
     } catch (error) {
         toastr.error('Ocurrio un problema al procesar su compra');
+    }
+}
+const deleteProduct = async (cid, pid) => {
+    try {
+        const response = await fetch(`/api/carts/${cid}/product/${pid}`, {
+            method: "DELETE",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        });
+        if (response.status === 200) {
+            location.reload();
+        } else {
+            throw new Error('Ocurrio un problema al eliminar el producto del carrito');
+        }
+        return await response.json();
+    } catch (error) {
+        toastr.error('Ocurrio un problema al eliminar el producto del carrito');
     }
 }

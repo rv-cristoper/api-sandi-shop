@@ -26,7 +26,8 @@ export const tokenGenerator = (user) => {
         age: user.age,
         role: role[user.role] || 'Usuario',
         last_connection,
-        cart: user.cart
+        cart: user.cart,
+        cartId: user.cartId
     }
     const token = jsonwebtoken.sign(payload, config.secretKey, { expiresIn: '24h' })
     return token
@@ -34,6 +35,8 @@ export const tokenGenerator = (user) => {
 
 export const tokenGeneratorPass = (user) => {
     console.log(user)
+    const lastConnection = new Date(user.last_connection);
+    const last_connection = moment(lastConnection).format('DD-MM-YYYY HH:mm:ss');
     const role = {
         'user': 'Usuario',
         'admin': 'Administrador',
@@ -46,6 +49,8 @@ export const tokenGeneratorPass = (user) => {
         email: user.email,
         age: user.age,
         role: role[user.role] || 'Usuario',
+        last_connection,
+        cart: user.cart
     }
     const token = jsonwebtoken.sign(payload, config.secretKey, { expiresIn: '1h' })
     return token

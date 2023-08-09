@@ -1,8 +1,7 @@
 
-const addProduct = async (id) => {
+const addProduct = async (pid, cid) => {
     try {
-        const cartId = 1;
-        const response = await fetch(`/api/carts/${cartId}/product/${id}`,
+        const response = await fetch(`/api/carts/${cid}/product/${pid}`,
             {
                 method: 'POST', headers: { 'Content-Type': 'application/json' },
             });

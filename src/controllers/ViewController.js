@@ -145,6 +145,7 @@ class ViewController {
     }
 
     static async users(req, res) {
+        const user = res.locals.user
         let users = await UserService.get();
         users = users.map((e, index) => {
             return {
@@ -155,6 +156,7 @@ class ViewController {
         return res.render('users', {
             style: 'home.css',
             success: true,
+            user,
             users
         })
     }

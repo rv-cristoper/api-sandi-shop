@@ -1,6 +1,7 @@
 import { createHash, isValidToken, tokenGenerator, tokenGeneratorPass, validatePassword } from '../utils/index.js'
 import UserService from '../services/user.service.js'
 import MessageController from './MessageController.js'
+import CartService from '../services/cart.service.js'
 
 class SessionController {
 
@@ -21,6 +22,11 @@ class SessionController {
 
     static async login(req, res) {
         let user = JSON.parse(JSON.stringify(res.locals.user))
+        const cartById = await CartService.getById(user.cart)
+        user = {
+            ...user,
+            cartId: cartById.id
+        }
         const token = tokenGenerator(user);
         res.cookie("token", token, {
             maxAge: 60 * 60 * 1000,
