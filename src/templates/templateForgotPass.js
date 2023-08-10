@@ -1,4 +1,4 @@
-export const plantillaForgotPass = (resetLink) => {
+export const templateForgotPass = (resetLink) => {
   return `<body class="clean-body u_body"
     style="margin: 0;padding: 0;-webkit-text-size-adjust: 100%;background-color: #f9f9f9;color: #000000">
     <!--[if IE]><div class="ie-container"><![endif]-->

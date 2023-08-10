@@ -1,30 +1,30 @@
 {{#if success}}
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" href="#"><p>Bienvenido <b>{{user.first_name}} {{user.last_name}}</b> || Rol: <b>{{user.role}}</b></p></a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav mr-auto">
-            <li class="nav-item ">
-                <a class="nav-link" href="http://localhost:8080/products"><b>Productos</b></a>
-            </li>
-            <li class="nav-item ">
-                <a class="nav-link" href="http://localhost:8080/users"><b>Usuarios</b></a>
-            </li>
-            <li class="nav-item active">
-                <a class="nav-link active" href="http://localhost:8080/profile"><b>Perfil</b></a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="http://localhost:8080/carts/{{user.cartId}}"><b>Carrito</b></a>
-            </li>
-        </ul>
-        <div>
-            <button onclick="logoutUser()">Cerrar sesión</button>
+<header class="navbar navbar-expand-lg p-0">
+    <div class="container-fluid header_container ">
+        <p class="m-0">͓̽s͓̽a͓͓̽̽n͓͓̽̽d͓͓̽̽i͓̽s͓̽</p>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <nav class="collapse navbar-collapse navigation p-0" id="navbarNav">
+            <ul class="navbar-nav ms-auto text-center main_list px-0">
+                <li class="nav-item"><a class="nav-link" href="/products">Productos</a>
+                </li>
+                <li class="nav-item"><a class="nav-link" href="/users">Usuarios</a>
+                </li>
+                <li class="nav-item"><a class="nav-link active" aria-current="page" href="/profile">Perfil</a>
+                </li>
+            </ul>
+        </nav>
+        <div class="section_cart">
+            <span></span>
+            <a href="/carts/{{user.cartId}}" style="color: white;">
+                <i class="fa-sharp fa-solid fa-cart-shopping" id="showCart"></i>
+            </a>
         </div>
+        <button onclick="logoutUser()" class="btn btn-dark">Cerrar sesión</button>
     </div>
-</nav>
+</header>
 <section style="background-color: #2e434c;">
     <div class="container py-5 h-100">
         <div class="row d-flex justify-content-center align-items-center h-100">
@@ -38,7 +38,7 @@
                                     style="width: 180px; border-radius: 10px;">
                             </div>
                             <div class="flex-grow-1 ms-3">
-                                <h5 class="mb-1">{{user.first_name}} {{user.last_name}}</h5>
+                                <h5 class="mb-3">{{user.first_name}} {{user.last_name}}</h5>
                                 <div class="justify-content-start rounded-3 p-2 mb-2"
                                     style="background-color: #efefef;">
                                     <p>Rol: <b>{{user.role}}</b></p>
@@ -56,5 +56,18 @@
 </section>
 <script src="/js/auth.js"></script>
 {{else}}
-<h2>{{message}}</h2>
+<div class="general-page">
+    <div class="text-wrapper">
+        <div class="title" data-content="404">
+            403 - ACCESO DENEGADO
+        </div>
+
+        <div class="subtitle">
+            Ups, No tienes permiso para acceder a esta página.
+        </div>
+        <div class="buttons">
+            <a class="btn btn-dark btn-home" href="/products">Ir a la página principal</a>
+        </div>
+    </div>
+</div>
 {{/if}}

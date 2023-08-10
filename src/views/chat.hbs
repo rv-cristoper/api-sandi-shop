@@ -18,5 +18,18 @@
 <script src="/socket.io/socket.io.js"></script>
 <script src="/js/script.js"></script>
 {{else}}
-<h2>{{message}}</h2>
+<div class="general-page">
+    <div class="text-wrapper">
+        <div class="title" data-content="404">
+            403 - ACCESO DENEGADO
+        </div>
+
+        <div class="subtitle">
+            Ups, No tienes permiso para acceder a esta página.
+        </div>
+        <div class="buttons">
+            <a class="btn btn-dark btn-home" href="/products">Ir a la página principal</a>
+        </div>
+    </div>
+</div>
 {{/if}}

@@ -1,8 +1,9 @@
 import config from "../config/index.js";
 import emailService from "../services/email.service.js";
-import { plantillaDeleteProduct } from "../templates/plantillaDeleteProduct.js";
-import { plantillaDeleteUser } from "../templates/plantillaDeleteUser.js";
-import { plantillaForgotPass } from "../templates/plantillaForgotPass.js";
+import { templateDeleteProduct } from "../templates/templateDeleteProduct.js";
+import { templateDeleteUser } from "../templates/templateDeleteUser.js";
+import { templateForgotPass } from "../templates/templateForgotPass.js";
+import { templateSuccessfulPurchase } from "../templates/templateSuccessfulPurchase.js";
 
 
 class MessageController {
@@ -12,7 +13,7 @@ class MessageController {
         await emailService.sendEmail(
             email,
             "Restablecimiento de contraseña",
-            plantillaForgotPass(resetLink)
+            templateForgotPass(resetLink)
         );
         return true
     };
@@ -21,7 +22,7 @@ class MessageController {
         await emailService.sendEmail(
             email,
             "Eliminación de producto",
-            plantillaDeleteProduct(fullName, productName)
+            templateDeleteProduct(fullName, productName)
         );
         return true
     };
@@ -30,7 +31,16 @@ class MessageController {
         await emailService.sendEmail(
             email,
             "Usuario eliminado",
-            plantillaDeleteUser(fullName)
+            templateDeleteUser(fullName)
+        );
+        return true
+    }
+
+    static async successfulPurchase(email, fullName, code) {
+        await emailService.sendEmail(
+            email,
+            "Orden de compra",
+            templateSuccessfulPurchase(fullName, code)
         );
         return true
     }

@@ -4,6 +4,7 @@ import CartService from '../services/cart.service.js';
 import ProductController from './ProductController.js';
 import TicketsService from '../services/tickets.service.js';
 import { isValidToken } from '../utils/index.js';
+import MessageController from './MessageController.js';
 
 class CartController {
 
@@ -220,7 +221,8 @@ class CartController {
             }
 
             if (available) {
-                await TicketsService.create(data);
+                const res = await TicketsService.create(data);
+                MessageController.successfulPurchase(user.email, `${user.first_name} ${user.last_name}`, res.code);
                 available.map(async (e) => {
                     await ProductController.updateProductStock(e._id, e.quantity);
                 });

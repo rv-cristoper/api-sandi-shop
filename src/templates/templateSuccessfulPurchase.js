@@ -1,4 +1,4 @@
-export const plantillaDeleteUser = (fullName) => {
+export const templateSuccessfulPurchase = (fullName, code) => {
     return `<body class="clean-body u_body"
       style="margin: 0;padding: 0;-webkit-text-size-adjust: 100%;background-color: #f9f9f9;color: #000000">
       <!--[if IE]><div class="ie-container"><![endif]-->
@@ -141,10 +141,12 @@ export const plantillaDeleteUser = (fullName) => {
     
                                   <div style="font-size: 14px; line-height: 140%; text-align: left; word-wrap: break-word;">
                                     <p style="font-size: 14px; line-height: 140%;"><span
-                                        style="font-size: 18px; line-height: 25.2px; color: #666666;">Hola <b>${fullName}</b></span></p>
+                                        style="font-size: 18px; line-height: 25.2px; color: #666666;">Hola <b>${fullName}</b>, su compra fue registrada de manera exitosa! ✨🎉</span></p>
                                     <p style="font-size: 14px; line-height: 140%;">&nbsp;</p>
                                     <p style="font-size: 14px; line-height: 140%;"><span
-                                        style="font-size: 18px; line-height: 25.2px; color: #666666;">Su usuario fue eliminado por <b>INACTIVIDAD</b>, en caso usted crea que fue un error no dude en contactarnos.</span></p>
+                                        style="font-size: 18px; line-height: 25.2px; color: #666666;">Numero de pedido: <b>${code}</b></span></p>
+                                    <p style="font-size: 14px; line-height: 140%;"><span
+                                        style="font-size: 18px; line-height: 25.2px; color: #666666;">Agradecemos su preferencia y esperamos que disfrute mucho de los productos adquiridos.</span></p>
                                   </div>
     
                                 </td>

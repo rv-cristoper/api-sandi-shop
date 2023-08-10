@@ -100,6 +100,7 @@ class ViewController {
                     totalPrice: (product._doc.quantity * product._id.price).toFixed(2)
                 }
             })
+            const emptyCart = newProducts.length === 0
             const total = (newProducts.reduce((accumulator, current) => accumulator + Number(current.totalPrice), 0)).toFixed(2);
             const user = res.locals.user
             return res.render('cart', {
@@ -107,7 +108,8 @@ class ViewController {
                 success: true,
                 products: newProducts,
                 user,
-                total
+                total,
+                emptyCart
             })
         } catch (err) {
             return next(new Exception(`Unauthorized`, 401, 'users'))
