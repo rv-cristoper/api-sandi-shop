@@ -1,8 +1,9 @@
 {
 	"info": {
-		"_postman_id": "907b32a6-a044-43c1-9bf9-28ea4c6b5e70",
-		"name": "API-Sandi",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+		"_postman_id": "02f298f9-c03b-4633-985b-2b76eafd56cd",
+		"name": "API-Sandi Copy",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "13258613"
 	},
 	"item": [
 		{
@@ -70,7 +71,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"title\": \"Pulsera Corazones Rosa\",\r\n    \"description\": \"Pulsera de corazones bañado en oro\",\r\n    \"code\": \"bElYx37QYVIw74huBnjg\",\r\n    \"price\": 18.32,\r\n    \"stock\": 4,\r\n    \"category\": \"Accesorios\"\r\n}",
+							"raw": "{\r\n    // \"title\": \"Pulsera Corazones Rosa 2\",\r\n    \"description\": \"Pulsera de corazones bañado en oro 2\",\r\n    \"code\": \"bElYx37QYVIw74huBnjg 2\",\r\n    // \"price\": 18.32,\r\n    // \"stock\": 4,\r\n    \"category\": \"Accesorios\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -138,6 +139,54 @@
 								"api",
 								"products",
 								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getMockingproducts",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/products/mockingproducts?count=100",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"products",
+								"mockingproducts"
+							],
+							"query": [
+								{
+									"key": "count",
+									"value": "100"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getLoggerTest",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/products/loggerTest",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"products",
+								"loggerTest"
 							]
 						}
 					},
@@ -313,6 +362,148 @@
 								"1",
 								"product",
 								"642271b79b66957cd45e26c1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Session",
+			"item": [
+				{
+					"name": "postCreateUser",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"first_name\": \"Cristoper\",\r\n    \"last_name\": \"Runco\",\r\n    \"age\": 26,\r\n    \"email\": \"jhanfranco14@gmail.com\",\r\n    \"password\": \"1234\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/sessions/register",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"sessions",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "postLogin",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"adminCoder@coder.com\",\r\n    \"password\": \"adminCod3r123\"\r\n    // \"email\": \"pepe@dispostable.com\",\r\n    // \"password\": \"1234@Asd\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/sessions/login",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"sessions",
+								"login"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "User",
+			"item": [
+				{
+					"name": "postDocuments",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "files",
+									"type": "file",
+									"src": "/C:/Users/Usuario/Downloads/Identificación.pdf"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/users/64d2c1e93d8de8e222a7ce9a/documents",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"users",
+								"64d2c1e93d8de8e222a7ce9a",
+								"documents"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getAllUsers",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/users",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deleteInactiveUsers",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/users",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"users"
 							]
 						}
 					},
