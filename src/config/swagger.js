@@ -18,7 +18,7 @@ const options = {
         url: config.swaggerServer,
       },
     ],
-    host: config.swaggerServer
+    host: `config.swaggerServer`
   },
   apis: [path.join(__dirname, "..", "docs", "**", "*.yaml")],
 };
