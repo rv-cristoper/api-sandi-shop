@@ -3,7 +3,7 @@ paths:
     get:
       summary: Obtener productos
       tags:
-        - Products
+        - Product
       responses:
         200:
           descripton: Lista de prodcutos
@@ -16,7 +16,7 @@ paths:
     post:
       summary: Crear producto
       tags:
-        - Products
+        - Product
       requestBody:
         required: true
         content:
@@ -37,7 +37,7 @@ paths:
     get:
       summary: Obtener producto por Id
       tags:
-        - Products
+        - Product
       parameters:
         - in: path
           name: id
@@ -59,7 +59,7 @@ paths:
     put:
       summary: Actualizar producto
       tags:
-        - Products
+        - Product
       parameters:
         - in: path
           name: id
@@ -86,7 +86,7 @@ paths:
     delete:
       summary: Eliminar producto
       tags:
-        - Products
+        - Product
       parameters:
         - in: path
           name: id

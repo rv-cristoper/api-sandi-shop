@@ -3,7 +3,7 @@ paths:
     post:
       summary: Crear un Carrito
       tags:
-        - Carrito
+        - Cart
       responses:
         200:
           description: Carrito registrado
@@ -16,7 +16,7 @@ paths:
     get:
       summary: Obtener un Carrito por Id
       tags:
-        - Carrito
+        - Cart
       parameters:
         - in: path
           name: cid
@@ -41,7 +41,7 @@ paths:
     put:
       summary: Actualizar todos los productos de un carrito por Id
       tags:
-        - Carrito
+        - Cart
       parameters:
         - in: path
           name: cid
@@ -68,7 +68,7 @@ paths:
     delete:
       summary: Eliminar todos los productos de un Carrito por Id
       tags:
-        - Carrito
+        - Cart
       parameters:
         - in: path
           name: cid
@@ -90,7 +90,7 @@ paths:
     post:
       summary: Agregar un producto a un carrito por Id
       tags:
-        - Carrito
+        - Cart
       parameters:
         - in: path
           name: cid
@@ -119,7 +119,7 @@ paths:
     put:
       summary: Actualizar la cantidad de un producto de un carrito por Id
       tags:
-        - Carrito
+        - Cart
       parameters:
         - in: path
           name: cid
@@ -154,7 +154,7 @@ paths:
     delete:
       summary: Eliminar un producto de un carrito por Id
       tags:
-        - Carrito
+        - Cart
       parameters:
         - in: path
           name: cid

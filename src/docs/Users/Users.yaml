@@ -1,0 +1,136 @@
+paths:
+  /api/users:
+    get:
+      summary: Obtener Usuarios
+      tags:
+        - User
+      responses:
+        200:
+          description: Lista de Usuarios
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/getUser'
+        401:
+          description: Inautorizado
+        500:
+          description: Error interno del servidor
+    delete:
+      summary: Eliminar usuarios inactivos
+      tags:
+        - User
+      responses:
+        200:
+          description: Los usuarios inactivos fueron eliminados exitosamente
+        400:
+          description: Error al eliminar los usuarios inactivos
+        401:
+          description: Inautorizado
+        500:
+          description: Error interno del servidor
+
+  /api/users/:id:
+    delete: 
+      summary: Eliminar Usuario por ID
+      tags:
+        - User
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+          description: ID del Usuario
+      responses:
+        200:
+          description: El usuario fue eliminado exitosamente
+        400:
+          description: Error al eliminar el usuario
+        401:
+          description: Inautorizado
+        500:
+          description: Error interno del servidor
+
+  /api/users/premium/:uid:
+    put:
+      summary: Actualizar rol de Usuario
+      tags:
+        - User
+      parameters:
+        - in: path
+          name: uid
+          schema:
+            type: string
+          required: true
+          description: ID del Usuario
+      responses:
+        200:
+          description: El rol del usuario fue actualizado exitosamente
+        400:
+          description: Error al actualizar el rol del usuario
+        401:
+          description: Inautorizado
+        500:
+          description: Error interno del servidor
+
+  /api/users/:id/documents:
+    post: 
+      summary: Subir documento del Usuario
+      tags:
+        - User
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+          description: ID del Usuario
+        - in: query
+          name: type
+          schema:
+            type: string
+          description: Tipo del documento
+      responses:
+        200:
+          description: Documentos subidos exitosamente
+        400:
+          description: Error al subir los documentos
+        401:
+          description: Inautorizado
+        500:
+          description: Error interno del servidor
+
+components:
+  schemas:
+    getUser:
+      type: object
+      properties:
+        users:
+          type: Array
+          description: Lista de usuarios
+          items:
+            type: object
+            properties:
+              name:
+                type: string
+                description: Nombre del usuario
+              email:
+                type: string
+                description: Correo electrónico del usuario
+              role:
+                type: string
+                description: Rol del usuario
+        total:
+          type: number
+          description: Cantidad de Usuarios
+      example:
+        users: [
+          {
+            name: Cristoper Runco,
+            email: adminCoder@coder.com,
+            role: admin
+          },
+        ]
+        total: 1

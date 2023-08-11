@@ -1,0 +1,168 @@
+paths:
+  /api/sessions/login:
+    post:
+      summary: Iniciar sesión
+      tags:
+        - Sessions
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/requestBody/postLogin'
+      responses:
+        200:
+          description: Sesión iniciada exitosamente
+        404:
+          description: Email o contraseña incorrectos
+        500:
+          description: Error interno del servidor
+  
+  /api/sessions/register:
+    post:
+      summary: Registrarse
+      tags:
+        - Sessions
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/requestBody/postRegister'
+      responses:
+        200:
+          description: Usuario registrado exitosamente
+        404:
+          description: El email ya se encuentra registrado
+        500:
+          description: Error interno del servidor
+
+  /api/sessions/forgot-password:
+    post:
+      summary: Recuperar contraseña
+      tags:
+        - Sessions
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/requestBody/postForgotPassword'
+      responses:
+        200:
+          description: Correo enviado exitosamente
+        400:
+          description: Error al recuperar contraseña
+        500:
+          description: Error interno del servidor
+
+  /api/sessions/reset-password:
+    post:
+      summary: Restablecer contraseña
+      tags:
+        - Sessions
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/requestBody/postResetPassword'
+      responses:
+        200:
+          description: Se cambió la contraseña exitosamente
+        400:
+          description: Token de restablecimiento de contraseña es inválido o ha expirado.
+        500:
+          description: Error interno del servidor 
+
+  /api/sessions/logout:
+    get:
+      summary: Cerrar sesión
+      tags:
+        - Sessions
+      responses:
+        200:
+          description: Sesión cerrada exitosamente
+        500:
+          description: Error interno del servidor
+
+components:
+  requestBody:      
+    postLogin:
+      type: object
+      required:
+        - email
+        - password
+      properties:
+        email:
+          type: string
+          description: Correo electrónico del usuario
+        password:
+          type: string
+          description: Contraseña del usuario
+      example:
+        {
+          email: adminCoder@coder.com,
+          password: adminCod3r123
+        }
+    postRegister:
+      type: object
+      required:
+        - first_name
+        - last_name
+        - age
+        - email
+        - password
+      properties:
+        first_name:
+          type: String
+          description: Nombre del usuario
+        last_name:
+          type: string
+          description: Apellido del usuario
+        age:
+          type: number
+          description: Edad del usuario
+        email:
+          type: string
+          description: Email del usuario
+        password:
+          type: string
+          description: Contraseña del usuario
+      example:
+        {
+          first_name: Cristoper,
+          last_name: Runco,
+          age: 26,
+          email: jhanfranco14@gmail.com,
+          password: 1234
+        }
+    postForgotPassword:
+      type: object
+      required:
+        - email
+      properties:
+        email:
+          type: string
+          description: Email del usuario
+      example:
+        {
+          email: adminCoder@coder.com
+        }
+    postResetPassword:
+      type: object
+      required:
+        - email
+        - password
+      properties:
+        email:
+          type: string
+          description: Email del usuario
+        password:
+          type: string
+          description: Contraseña del usuario
+      example:
+        {
+          email: adminCoder@coder.com,
+          password: adminCod3r123
+        }
