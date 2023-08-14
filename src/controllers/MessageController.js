@@ -9,7 +9,7 @@ import { templateSuccessfulPurchase } from "../templates/templateSuccessfulPurch
 class MessageController {
 
     static async mail(email, token) {
-        const resetLink = `http://localhost:${config.port}/reset-password?token=${token}`;
+        const resetLink = `${config.swaggerServer}/reset-password?token=${token}`;
         await emailService.sendEmail(
             email,
             "Restablecimiento de contraseña",

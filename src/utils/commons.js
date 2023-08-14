@@ -1,5 +1,3 @@
-const baseUrl = "http://localhost:8080";
-
 export default class CommonsUtils {
     static buildResult(opts) {
         const {
