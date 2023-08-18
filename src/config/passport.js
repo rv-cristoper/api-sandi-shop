@@ -86,12 +86,14 @@ const initPassport = () => {
             try {
                 let user = await UserService.getOne({ email: profile._json.email })
                 if (!user) {
+                    const cart = await CartService.create({});
                     user = await UserService.create({
                         first_name: profile._json.name,
                         last_name: '',
                         email: profile._json.email,
                         age: 18,
-                        password: ''
+                        password: '',
+                        cart: cart._id
                     })
                 }
                 done(null, user)
