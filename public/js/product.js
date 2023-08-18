@@ -6,7 +6,15 @@ const addProduct = async (pid, cid) => {
                 method: 'POST', headers: { 'Content-Type': 'application/json' },
             });
         if (response.status === 200) {
-            toastr.success('Producto agregado al carrito');
+            Swal.fire({
+                icon: "success",
+                title: '¡Producto agregado al carrito!',
+                text: '',
+                showConfirmButton: false
+            });
+            setTimeout(() => {
+                window.location.reload();
+            }, 1200);
         }else {
             toastr.error('Error al agregar producto al carrito');
         }

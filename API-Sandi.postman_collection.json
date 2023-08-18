@@ -1,9 +1,8 @@
 {
 	"info": {
-		"_postman_id": "02f298f9-c03b-4633-985b-2b76eafd56cd",
-		"name": "API-Sandi Copy",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "13258613"
+		"_postman_id": "907b32a6-a044-43c1-9bf9-28ea4c6b5e70",
+		"name": "API-Sandi",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
 		{
@@ -366,6 +365,28 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "postBuyProductsToCartById",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/carts/2/purchase",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"carts",
+								"2",
+								"purchase"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},
@@ -409,7 +430,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"email\": \"adminCoder@coder.com\",\r\n    \"password\": \"adminCod3r123\"\r\n    // \"email\": \"pepe@dispostable.com\",\r\n    // \"password\": \"1234@Asd\"\r\n}",
+							"raw": "{\r\n    \"email\": \"adminCoder@coder.com\",\r\n    \"password\": \"adminCod3r123\"\r\n    // \"email\": \"a@a.a\",\r\n    // \"password\": \"a\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -431,6 +452,78 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "getLogout",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/sessions/logout",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"sessions",
+								"logout"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "postForgotPassword",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/sessions/forgot-password",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"sessions",
+								"forgot-password"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "postResetPassword",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/sessions/reset-password",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"sessions",
+								"reset-password"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},
@@ -442,18 +535,8 @@
 					"request": {
 						"method": "POST",
 						"header": [],
-						"body": {
-							"mode": "formdata",
-							"formdata": [
-								{
-									"key": "files",
-									"type": "file",
-									"src": "/C:/Users/Usuario/Downloads/Identificación.pdf"
-								}
-							]
-						},
 						"url": {
-							"raw": "http://localhost:8080/api/users/64d2c1e93d8de8e222a7ce9a/documents",
+							"raw": "http://localhost:8080/api/users",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -461,9 +544,7 @@
 							"port": "8080",
 							"path": [
 								"api",
-								"users",
-								"64d2c1e93d8de8e222a7ce9a",
-								"documents"
+								"users"
 							]
 						}
 					},
@@ -475,7 +556,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/api/users",
+							"raw": "http://localhost:8080/api/users/",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -483,7 +564,8 @@
 							"port": "8080",
 							"path": [
 								"api",
-								"users"
+								"users",
+								""
 							]
 						}
 					},
@@ -504,6 +586,49 @@
 							"path": [
 								"api",
 								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "putPremium",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/users/premium/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"users",
+								"premium",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deleteUserById",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/users/64da43dc689ebdbc4c1390f1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"users",
+								"64da43dc689ebdbc4c1390f1"
 							]
 						}
 					},

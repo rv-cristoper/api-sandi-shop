@@ -2,6 +2,7 @@ import { createHash, isValidToken, tokenGenerator, tokenGeneratorPass, validateP
 import UserService from '../services/user.service.js'
 import MessageController from './MessageController.js'
 import CartService from '../services/cart.service.js'
+import isEmpty from 'is-empty'
 
 class SessionController {
 
@@ -61,6 +62,7 @@ class SessionController {
         try {
             const { email, password } = req.body;
             console.log({ email, password })
+            if(isEmpty(email) || isEmpty(password)) throw new Error(JSON.stringify({ detail: "El email y el password son obligatorios" }))
             const user = await UserService.getOne({ email });
             if (validatePassword(password, user)) throw new Error(JSON.stringify({ detail: "El password no puede ser el mismo, por favor intente nuevamente" }));
             const hashedPassword = createHash(password);
@@ -69,7 +71,7 @@ class SessionController {
             return res.status(200).json({ message: "Se cambió la contraseña exitosamente" })
         } catch (error) {
             return res.status(400).json({
-                message: JSON.parse(error.message).detail,
+                message: 'Error al cambiar contraseña',
                 error: JSON.parse(error.message)
             });
         }

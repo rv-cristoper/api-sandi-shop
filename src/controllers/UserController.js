@@ -171,7 +171,7 @@ class UserController {
         message: `El usuario fue eliminado exitosamente`
       });
     } catch (err) {
-      return res.sendServerError({
+      return res.status(400).json({
         message: "Error al eliminar el usuario",
         error: err.message,
       });
