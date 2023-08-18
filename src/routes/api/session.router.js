@@ -4,6 +4,7 @@ import passport from "passport"
 import { authJWTRole } from "../../middleware/auth.js";
 import { tokenGenerator } from "../../utils/index.js";
 import { validForgotPassword } from "../../middleware/user.js";
+import CartService from "../../services/cart.service.js";
 
 const sessionRouter = Router();
 
@@ -36,10 +37,13 @@ sessionRouter
     .post('/reset-password', SessionController.resetPassword)
     .get('/logout', SessionController.logout)
     .get('/auth/github', passport.authenticate('github', { scope: ['user:email'] }))
-    .get('/auth/github/callback', passport.authenticate('github', { failureRedirect: '/login' }), (req, res) => {
+    .get('/auth/github/callback', passport.authenticate('github', { failureRedirect: '/login' }), async (req, res) => {
         let user = JSON.parse(JSON.stringify(req.user))
-        user.role = 'user'
-        delete user.password;
+        const cartById = await CartService.getById(user.cart)
+        user = {
+            ...user,
+            cartId: cartById.id
+        }
         const token = tokenGenerator(user);
         res.cookie("token", token, {
             maxAge: 60 * 60 * 1000,
