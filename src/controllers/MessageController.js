@@ -1,5 +1,6 @@
 import config from "../config/index.js";
 import emailService from "../services/email.service.js";
+import { templateBanex } from "../templates/templateBanex.js";
 import { templateDeleteProduct } from "../templates/templateDeleteProduct.js";
 import { templateDeleteUser } from "../templates/templateDeleteUser.js";
 import { templateForgotPass } from "../templates/templateForgotPass.js";
@@ -41,6 +42,22 @@ class MessageController {
             email,
             "Orden de compra",
             templateSuccessfulPurchase(fullName, code)
+        );
+        return true
+    }
+
+    static async sendEmaiWithPdf(email, archive, typeAction) {
+        await emailService.sendEmail(
+            email,
+            "Envío de PDF",
+            templateBanex(archive, typeAction),
+            [
+                {
+                    filename: 'archivo.pdf',
+                    path: './archivo.pdf'
+                }
+            ]
+
         );
         return true
     }
